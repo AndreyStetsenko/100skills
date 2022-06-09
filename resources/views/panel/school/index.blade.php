@@ -104,10 +104,7 @@
                                      @{{ item['title'] }}
                                 </div>
                                 <div style="justify-self: flex-end;">
-                                    @php
-                                        $get = App\Models\Statistics::where('slug', '/')->get();
-                                    @endphp
-                                    {{-- {{ $get->count() }} --}}
+                                    
                                 </div>
                                 <div style="justify-self: flex-end;">
                                     <form v-if="item['is_visible']">
