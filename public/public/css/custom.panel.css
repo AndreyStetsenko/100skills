@@ -1,0 +1,117 @@
+body{
+	background-color: rgba(229, 231, 235, 1);
+}
+[row]{
+	max-width: 1000px;
+	margin: 0 auto;
+}
+nav li a{
+	color: #212121;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+p{
+	padding: 0;
+	margin: 0;
+}
+
+[data-component="component-title"] {
+	background: #fafafa;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
+	border-top: 1px solid #cacbcf;
+}
+[data-component="component-title"] [row]{
+	padding: 80px 0 40px;
+}
+[data-component="component-title"] h1{
+	font-size: 24px;
+	padding: 0 0 10px;
+}
+[data-component="component-title"] [navigation] b,
+[data-component="component-title"] [navigation] a{
+    display: inline-block;
+}
+[data-component="component-title"] [navigation] b{}
+[data-component="component-title"] [navigation] a{
+	position: relative;
+	padding: 0px 5px 5px 0px;
+}
+[data-component="component-title"] [navigation] a[href]:hover{
+	cursor: pointer;
+	text-decoration: underline;
+}
+[data-component="component-title"] [navigation] a:not(a[href]){
+	color: #313131;
+}
+main > [data-component]{
+	padding: 45px 0;
+}
+/*main [row] > article*/
+main [row] > article:not(article:last-child){
+	padding-bottom: 25px;
+}
+main > [data-component] [row]{
+	border-radius: 5px;
+	padding: 25px;
+	border-color: rgba(229, 231, 235, 1);
+	background-color: rgba(255, 255, 255, 1);
+	margin-bottom: 10px;
+}
+
+/* label padding  */
+label[default]{
+    padding: 0 0 15px;
+    display: block;
+}
+/* стили для подсказок */
+blockquote[faq]{
+    font-size: 12px;
+    color: #9f9f9f;
+    border-left-color: #a8a8a8;
+    padding-left: 10px;
+    border-left-width: 4px;
+}
+/* basic manage button as delete && edit in component list  */
+[data-component="manage"]{
+	display: grid;
+	grid-auto-flow: column;
+	grid-gap: 15px;
+	justify-content: end;
+}
+[data-component="manage"] a{
+	padding: 5px;
+	align-self: center;
+	height: 35px;
+	border-radius: 3px;
+	width: 35px;
+	background: #f4f4f4;
+	background: #eee;
+	transition: .1s ease-in;
+}
+[data-component="manage"] a:hover{
+	background: #dedede;
+	transition: .1s ease-out;
+}
+/* [data-component="is_visible_buttonset"] */
+[data-component="is_visible_buttonset"] [type="checkbox"] + span:not(.lever) {
+	height: 21px;
+	line-height: 21px;
+}
+/* [data-component="select-category"] */
+[data-component="select-category"] select{
+    font-size: 12px;
+    font-family: inherit;
+}
+/* [data-component="admin-search"] */
+[data-component="admin-search"] nav {
+	background: transparent;
+	border: none;
+	box-shadow: unset;
+}
+[data-component="admin-search"] nav .input-field label i{
+	color: #9e9e9e;
+}
+[data-component="admin-search"]{}
