@@ -1,0 +1,5 @@
+# основные seeders это: 
+# menu, page
+# user, role, permission
+
+# дополнительные seeders размещены в директории по проектно 
