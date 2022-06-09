@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Statistics;
 use Auth;
 
@@ -24,7 +25,9 @@ class StatisticsController extends Controller
             $statistics->ip = request()->ip();
             $statistics->user_id = Auth::check() ? Auth::user()->id : null;
 
-            $statistics->save();
+            if (Schema::hasTable('statistics')) {
+                $statistics->save();
+            }
         }
     }
 }
