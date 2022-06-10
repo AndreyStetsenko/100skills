@@ -93,4 +93,12 @@ jQuery(document).ready(function($){
 
 		checkAll.prop('checked', $(e.currentTarget).prop('checked'));
 	});
+
+	$(function() {
+			let imgUrl = document.querySelectorAll('.uk-slider-items li img');
+
+			imgUrl.forEach(el => {
+				el.setAttribute('src', el.getAttribute('data-src').replace('/public/', '/'));
+			});
+	});
 });

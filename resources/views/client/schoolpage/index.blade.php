@@ -81,7 +81,13 @@
                     @foreach ($course as $item)
                     <li>
                         <div class="uk-panel p-3 border">
-                            <img src="/resources/img/kurs1.png" width="100%" alt="">
+                            @if (count($item->gallery) != 0)
+                                @foreach ($item->gallery as $gal)
+                                    <img data-src="{{ $gal->src }}" width="100%" alt="" сlass="img-item-course">
+                                @endforeach
+                            @else
+                                <img src="/resources/img/no-photo.png" width="100%" alt="" сlass="img-item-course">
+                            @endif
                             <h5 class="mt-4 mb-2">{{ $item->title }}</h5>
                             <span>{{ $item->school->user->name }}</span>
                             <div class="uk-clearfix mt-3">

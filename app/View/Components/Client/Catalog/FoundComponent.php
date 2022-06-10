@@ -41,8 +41,11 @@ class FoundComponent extends Component
      */
     public function render()
     {
+        $courses = Course::where("is_visible", 1)->get();
+
         return view("components.client.catalog.found-component", [
             'items' => $this->items,
+            'courses' => $courses
         ]);
     }
 }

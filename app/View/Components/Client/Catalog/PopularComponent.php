@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 use App\Models\Course\Category as Category;
+use App\Models\Course\Item as Course;
 
 class PopularComponent extends Component
 {
@@ -37,8 +38,13 @@ class PopularComponent extends Component
      */
     public function render()
     {
+        $courses = Course::where("is_visible", 1)->get();
+        $categories = Category::where("parent_id", 0)->with(["childs", "catalog"])->orderBy("sort")->get();
+
         return view("components.client.catalog.popular-component", [
             'items' => $this->items,
+            'categories' => $categories,
+            'courses' => $courses
         ]);
     }
 }
