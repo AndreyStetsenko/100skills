@@ -17,9 +17,11 @@ class SchoolController extends Controller
     public function show(Request $request, $slug)
     {
         $school = School::where("slug", $slug)->first();
+        $course = Course::where("school_id", $school->id)->get();
 
         return view( "client.schoolpage.index", [
             "school" => $school,
+            "course" => $course,
         ]);
     }
 }
