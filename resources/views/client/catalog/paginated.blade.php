@@ -4,9 +4,9 @@
             <div class="mobile-prew">
                 <div>
                     <?php if ( $value["gallery"]->first() != null ): ?>
-                        <img src="<?=$value["gallery"]->first()->src ?>" width="100%" alt="">
+                        <img data-src="<?=$value["gallery"]->first()->src ?>" width="100%" alt="">
                     <?php else: ?>
-                        <img src="/resources/img/kurs1.png" width="100%" alt="">
+                        <img src="/resources/img/no-photo.png" width="100%" alt="">
                     <?php endif ?>
                 </div>
                 <div>
