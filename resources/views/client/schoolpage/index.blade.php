@@ -9,9 +9,9 @@
     <main class="main"> 
         <div class="container">
             <ul class="uk-breadcrumb">
-                <li><a href="#">Главная</a></li>
-                <li><a href="#">Блог</a></li>
-                <li class="uk-disabled"><a>Фундаментальный JavaScript. С практикой и проектами</a></li>
+                <li><a href="{{ route('home') }}">Главная</a></li>
+                <li><a href="/catalog">Каталог</a></li>
+                <li class="uk-disabled"><a>{{ $school->title }}</a></li>
             </ul>
         </div>
 

@@ -79,7 +79,7 @@ Route::get('/{url}', [ClientPageController::class, 'view'])->where('url', '^(?!(
 # основные маршруты для верстки
 Route::get("/", function () {
     return view("/client/index/index");
-});
+})->name('home');
 
 # маршрут для страницы курсы рядом: веб
 Route::get("/catalog/nearme", [ClientCatalogSearchController::class, "nearme"]);
