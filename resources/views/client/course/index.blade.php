@@ -37,9 +37,9 @@
                     <div class="col-md-4">
                         <div class="uk-panel p-3 border white-bg card-stisky">
                             <?php if ( $item["gallery"]->first() != null ): ?>
-                                <img src="<?=$item["gallery"]->first()->src ?>" width="100%" alt="">
+                                <img data-src="<?=$item["gallery"]->first()->src ?>" width="100%" alt="">
                             <?php else: ?>
-                                <img src="/resources/img/kurs1.png" width="100%" alt="">
+                                <img src="/resources/img/no-photo.png" width="100%" alt="">
                             <?php endif ?>
 
                             <h5 class="mt-4 mb-2">
