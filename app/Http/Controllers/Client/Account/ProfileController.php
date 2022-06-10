@@ -144,6 +144,7 @@ class ProfileController extends Controller
                 "slug" => $school->slug,
                 "phone" => $school->phone,
                 "email" => $school->email,
+                "link" => $school->link,
                 "adress" => $school->adress,
                 "latitude" => $school->latitude,
                 "longitude" => $school->longitude,
@@ -198,7 +199,7 @@ dd(__METHOD__, 1);
 
         # dd(__METHOD__, $request->input("gallery"), $item);
     
-        if ( $request->input('gallery') != null ) {
+        if ( $request->input('gallery') ) {
             # добавляем к $item ссылку на gallery && сохраняем relation gallery
             foreach ( $request->input("gallery") as $key => $value ) {
                 if( !isset($value['id']) ){

@@ -70,6 +70,12 @@
                                         name="email" class="uk-input" placeholder="Email" />
                                 </div>
                                 <div class="col-md-12 mb-4">
+                                    <label>Ссылка на сайт</label>
+                                    <input type="text" 
+                                        value="<?=(isset($form["link"]) && !is_null($form["link"]) && !empty($form["link"]) ? $form["link"] : "" ) ?>"
+                                        name="link" class="uk-input" placeholder="https://google.com" />
+                                </div>
+                                <div class="col-md-12 mb-4">
                                     <label>Краткое описание</label>
                                     <textarea data-component='tinymce' class="uk-textarea" 
                                               name="body_short" 
@@ -117,7 +123,7 @@
 
                                 <div class="mt-4" uk-form-custom>
                                     <?php # dd(__METHOD__, $form['gallery']); ?>
-                                    <input type="hidden" name="gallery" value='<?=$form['gallery'] ?>' data-component="gallery">
+                                    <input type="hidden" name="gallery" value='' data-component="gallery">
                                     <input type="hidden" name="gallery_src" value='<?=$form['gallery_src'] ?>'>
                                     <input id="image-upload" onchange="event.preventDefault(); addGallery(event);" type="file">
                                     

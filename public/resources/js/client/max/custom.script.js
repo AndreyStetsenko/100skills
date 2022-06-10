@@ -253,6 +253,7 @@ var submitActionUpdateForm = function()
         request["title"] = form.querySelector(`input[name='title']`).value;
         request["body_short"] = form.querySelector(`[name='body_short']`).value;
         request["body_long"] = form.querySelector(`[name='body_long']`).value;     
+        request["link"] = form.querySelector(`[name='link']`).value;     
         request["gallery"] = JSON.parse(form.querySelector(`[name="gallery"]`).value);     
         
 
@@ -477,12 +478,14 @@ var submitProfileUpdateForm = function() {
     request["title"] = form.querySelector(`input[name='title']`).value;
     request["phone"] = form.querySelector(`input[name='phone']`).value;
     request["email"] = form.querySelector(`input[name='email']`).value;
+    request["link"] = form.querySelector(`input[name='link']`).value;
     request["adress"] = form.querySelector(`input[name='adress']`).value;
     request["latitude"] = form.querySelector(`input[name='latitude']`).value;
     request["longitude"] = form.querySelector(`input[name='longitude']`).value;
 
     /* не должен быть массив т.к в update ProfileController будет ошибка */
-    request["gallery"] = (form.querySelector(`[name="gallery"]`).value.length != 0) ? JSON.parse(form.querySelector(`[name="gallery"]`).value) : null;     
+    request["gallery"] = (form.querySelector(`[name="gallery"]`).value.length != 0) ? JSON.parse(form.querySelector(`[name="gallery"]`).value) : null;
+    console.log(form.querySelector(`[name="gallery"]`).value.length);
 
     /**
      * если на странице установлен tinyMCE редактор - получаем данные из него 

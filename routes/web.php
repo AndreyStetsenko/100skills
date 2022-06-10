@@ -170,6 +170,7 @@ Route::middleware(['auth', 'verified', 'school', 'role:account'])->group(functio
 });
 Route::get("/account/profile/create", [ClientAccountProfileController::class, "create"]);
 Route::post("/account/profile", [ClientAccountProfileController::class, "store"]);
+Route::post("/account/profile/{?id}", [ClientAccountProfileController::class, "update"]);
 
 
 

@@ -32,6 +32,7 @@ class Item extends Model
         "title",
 
         "body_short",
+        "link",
         "adress",
         "latitude",
         "longitude",

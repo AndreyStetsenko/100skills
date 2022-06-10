@@ -33,6 +33,7 @@ class ItemRequest extends FormRequest
             "longitude" => "",
             "phone" => "",
             "email" => "",
+            "link" => "",
 
             "user_id" => "",
 
