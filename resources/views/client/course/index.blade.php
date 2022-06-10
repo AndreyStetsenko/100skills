@@ -27,7 +27,7 @@
                             <?=(!empty($item['body_short']) ? $item['body_short'] : "Краткое описание не указано.") ?>
                         </p>
 
-                        <a href="#" class="btn btn-red">
+                        <a href="{{ $item->link }}" class="btn btn-red">
                             <span class="m-none">Перейти на сайт курса</span>
                             <span class="m-block">На сайт</span>
                         </a>
@@ -85,7 +85,7 @@
                         <?=(!empty($item['body_long']) ? $item['body_long'] : "Текст не указан.") ?>
                         
 
-                        <a style="display: block; width: max-content;" href="#" class="btn btn-red mt-4">Перейти на сайт курса</a>
+                        <a style="display: block; width: max-content;" href="{{ $item->link }}" class="btn btn-red mt-4">Перейти на сайт курса</a>
                     </div>
                 </div>
             </div>

@@ -23,7 +23,13 @@
                         {!! $school->body_short !!}
                     </div>
                     <div class="col-md-5 uk-text-right school-img">
-                        <img src="/resources/img/school-img.png" alt="" />
+                        @if (count($school->gallery) != 0)
+                            @foreach ($school->gallery as $gal)
+                                <img data-src="{{ $gal->src }}" width="100%" alt="" сlass="img-item-course">
+                            @endforeach
+                        @else
+                            <img src="/resources/img/no-photo.png" width="100%" alt="" сlass="img-item-course">
+                        @endif
                     </div>
                 </div>
 
