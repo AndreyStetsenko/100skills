@@ -90,7 +90,7 @@ class ProfileController extends Controller
                     # в базе нет (id в запросе отсутствует) - добавляем фото
 
                     $gallery_item = new Gallery($value);
-                    $gallery_item["src"] = "/public" . $value["path"];
+                    $gallery_item["src"] = $value["path"];
                     $gallery_item->save();
 
                     # сохраняем
@@ -206,7 +206,7 @@ dd(__METHOD__, 1);
 
                     $gallery_item = new Gallery($value);
 
-                    $gallery_item["src"] = "/public" . $value["path"];
+                    $gallery_item["src"] = $value["path"];
                     # dd(__METHOD__, $gallery_item, $value, $item->gallery());
                     # сохраняем
                     $item->gallery()->save($gallery_item);       
