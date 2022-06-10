@@ -69,6 +69,12 @@
                                         name="email" class="uk-input" placeholder="Email" />
                                 </div>
                                 <div class="col-md-12 mb-4">
+                                    <label>Ссылка</label>
+                                    <input type="text" 
+                                        value="<?=@(old('link')) ?>"
+                                        name="link" class="uk-input" placeholder="https://google.com" />
+                                </div>
+                                <div class="col-md-12 mb-4">
                                     <label>Краткое описание</label>
                                     <textarea data-component='tinymce' class="uk-textarea" 
                                               name="body_short" 
