@@ -31,7 +31,7 @@
                             <span class="m-none">Перейти на сайт курса</span>
                             <span class="m-block">На сайт</span>
                         </a>
-                        <a href="/school/<?=$item["school_id"] ?>" class="btn btn-light">Подробнее о школе</a>
+                        <a href="/school/{{ $item->school->slug }}" class="btn btn-light">Подробнее о школе</a>
                     </div>
 
                     <div class="col-md-4">
