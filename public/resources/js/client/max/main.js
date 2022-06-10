@@ -95,12 +95,20 @@ jQuery(document).ready(function($){
 	});
 
 	$(function() {
+		let imgUrl = document.querySelectorAll('.school-img-box img');
+
+		imgUrl.forEach(el => {
+			el.setAttribute('src', el.getAttribute('data-src').replace('/public/', '/'));
+		});
+	});
+
+	$(function() {
 		let imgUrl = document.querySelectorAll('[data-row="catalog"] img');
 
 		imgUrl.forEach(el => {
 			el.setAttribute('src', el.getAttribute('data-src').replace('/public/', '/'));
 		});
-});
+	});
 
 	$(function() {
 			let imgUrl = document.querySelectorAll('.uk-slider-items li img');
