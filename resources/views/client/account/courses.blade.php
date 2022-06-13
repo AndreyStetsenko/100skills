@@ -35,8 +35,9 @@
                    data-route="/account/courses/visible" 
                    style="cursor: pointer;" class="btn btn-light" style="padding: 11px 35px;">Отключить <span class="m-none">выбранные</span></a>
                 <a onclick="event.preventDefault(); changeMassAccountCourseVisible(event);"
-                   data-route="/account/courses/visible/true"" 
+                   data-route="/account/courses/visible/true"
                    style="cursor: pointer;" class="btn btn-light" style="padding: 11px 35px;">Включить <span class="m-none">выбранные</span></a>
+                   {{-- <span data-href="{{ route('statistic.get') }}" id="export" class="btn btn-success btn-sm" onclick="exportTasks(event.target);">Export</span> --}}
                 <table class="uk-table uk-table-hover uk-table-middle uk-table-striped uk-table-responsive">
                     <thead>
                         <tr>

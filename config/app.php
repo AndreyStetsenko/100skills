@@ -230,6 +230,7 @@ return [
          * Yandex geocoding package 
          */
         Yandex\Geocode\YandexGeocodeServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -283,6 +284,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'YandexGeocoding' => Yandex\Geocode\Facades\YandexGeocodeFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

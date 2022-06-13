@@ -67,10 +67,10 @@
                     </div>
                     @endif
                     
-                    @if ($school->site)
+                    @if ($school->link)
                     <div class="col-md-auto mt-3">
                         <span>Сайт</span>
-                        <a href="#" class="contact-link">{{ $school->site }}</a>
+                        <a href="#" class="contact-link">{{ $school->link }}</a>
                     </div>
                     @endif
                 </div>

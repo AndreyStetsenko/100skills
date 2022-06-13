@@ -38,16 +38,20 @@
                    style="cursor: pointer;" class="btn btn-light" style="padding: 11px 35px;">
                    Отключить <span class="m-none">выбранные</span>
                 </a>
-                <?php if ( !1 ): ?>
-                    <a href="/account/actions/create" 
-                       style="cursor: pointer;" class="btn btn-red" style="padding: 11px 35px;">
-                       Создать акцию</span>
-                    </a>
-                <?php endif ?>
+                <a onclick="event.preventDefault(); changeMassAccountCourseVisible(event);"
+                   data-route="/account/courses/visible/true"
+                   style="cursor: pointer;" class="btn btn-light" style="padding: 11px 35px;">Включить <span class="m-none">выбранные</span>
+                </a>
+                <a href="/account/actions/create" 
+                    style="cursor: pointer;" class="btn btn-light" style="padding: 11px 35px;">
+                    <span>Создать акцию</span>
+                </a>
                 <table class="uk-table uk-table-hover uk-table-middle uk-table-striped uk-table-responsive">
                     <thead>
                         <tr>
-                            <th class="col-md-1"></th>
+                            <th class="col-md-1">
+                                <input data-component="deleting-all" value="all" class="uk-checkbox" type="checkbox"></td>
+                            </th>
                             <th class="col-md-2"><span>Изображение</span></th>
                             <th class="col-md-3"><span>Наименование</span></th>
                             <th class="col-md-2"><span></span></th>

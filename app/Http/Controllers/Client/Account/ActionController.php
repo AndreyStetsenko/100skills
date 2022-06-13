@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Panel\Action\ItemRequest as ItemRequest;
 use App\Models\Action\Item as Item;
 use App\Models\School\Item as School;
+use App\Models\Course\Item as Course;
 use App\Models\Gallery\Gallery;
+use App\Models\User;
 
 class ActionController extends Controller
 {
@@ -58,23 +60,11 @@ class ActionController extends Controller
      */
     public function create(Request $request)
     {
-
-        $response = array(
-            "form" => array(
-                "h1" => "Создание акции",
-                "id" => "",
-                "title" => "",
-                
-                "body_short" => "",
-                "body_long" => "",
-                "gallery" => "",
-                "gallery_src" => "",
-            ),
-            "template" => array(
-                "button" => "Создать",
-            ),
-        ); 
-        return view("/client/account/action/create", $response);
+        $school_id = School::where("user_id", auth()->user()->id)->first()->id;
+        $courses = Course::where('school_id', $school_id)->get();
+        return view("/client/account/action/create", [
+            "courses" => $courses
+        ]);
     }
 
     /**
@@ -85,75 +75,86 @@ class ActionController extends Controller
      */
     public function store(ItemRequest $request)
     {
-        # валидация входящих полей
-        $validatedData = $request->validated();
-
-        # создание объекта с данными
-        $item = new Item($validatedData);        
-
-        # выставляем видимость по-умолчанию
+        $item = new Item;
+        $item->fill($request->all());
         $item->is_visible = 1;
+        $item->save();
 
-        # сохранение объекта
-        $result = $item->save();
+        return redirect()->route("actions.index");
+
+        // # валидация входящих полей
+        // $validatedData = $request->validated();
+
+        // # создание объекта с данными
+        // $item = new Item($validatedData);        
+
+        // # выставляем видимость по-умолчанию
+        // $item->is_visible = 1;
+
+        // # сохранение объекта
+        // $result = $item->save();
         
-        # привяжем школу
-        $school = School::where("user_id", auth()->user()->id)->first();
-        $school->action()->attach($item->id);
-        # $item->school_id = $school;
+        // # привяжем школу
+        // $school = School::where("user_id", auth()->user()->id)->first();
+        // $school->action()->attach($item->id);
+        // # $item->school_id = $school;
         
 
-        # в лекции есть галерея:
-        if ( $request->input('gallery') != null ) {
-            $gallery = $request->input("gallery");
-            # добавляем к $item ссылку на gallery && сохраняем relation gallery
-            if ( gettype($request->input("gallery")) === "string" ) {
-                $gallery = json_decode($request->input("gallery"), 1);
-            }
-            foreach ( $gallery as $key => $value ) {
-                if( !isset($value['id']) ){
-                    # в базе нет (id в запросе отсутствует) - добавляем фото
-                    $gallery_item = new Gallery($value);
-                    $gallery_item["src"] = ($gallery_item["src"] == null) ? ("/public" . $value["path"]) : $gallery_item["src"]; 
+        // # в лекции есть галерея:
+        // if ( $request->input('gallery') != null ) {
+        //     $gallery = $request->input("gallery");
+        //     # добавляем к $item ссылку на gallery && сохраняем relation gallery
+        //     if ( gettype($request->input("gallery")) === "string" ) {
+        //         $gallery = json_decode($request->input("gallery"), 1);
+        //     }
+        //     foreach ( $gallery as $key => $value ) {
+        //         if( !isset($value['id']) ){
+        //             # в базе нет (id в запросе отсутствует) - добавляем фото
+        //             $gallery_item = new Gallery($value);
+        //             $gallery_item["src"] = ($gallery_item["src"] == null) ? ("/public" . $value["path"]) : $gallery_item["src"]; 
 
-                    $gallery_item->save();
-                    $item->gallery()->save($gallery_item);
-                    # $item->gallery()->attach($gallery_item);
+        //             $gallery_item->save();
+        //             $item->gallery()->save($gallery_item);
+        //             # $item->gallery()->attach($gallery_item);
                     
-                }else{
-                    # уже в базе
-                }
-            }
+        //         }else{
+        //             # уже в базе
+        //         }
+        //     }
 
-            # обновим привязку
-            $item->is_active_gallery = 1;
-            $item->save();
+        //     # обновим привязку
+        //     $item->is_active_gallery = 1;
+        //     $item->save();
 
-        }
+        // }
 
-        $response = array(
-            "messages" => "Новая акция добавлен.",
-            "form" => array(
-                "h1" => "Создание акции",
-                "id" => "",
-                "title" => "",
-                "city" => "",
-                "duration" => "",
-                "price" => "",
-                "link" => "",
-                "body_short" => "",
-                "body_long" => "",
-                "body_goals" => "",
-                "body_course" => "",
-                "body_course" => "",
-                "gallery" => "",
-                "gallery_src" => "",
-            ),
-            "template" => array(
-                "button" => "Создать",
-            ),
-        ); 
-        return view("/client/account/course/create", $response);
+        // $response = array(
+        //     "messages" => "Новая акция добавлена.",
+        //     "form" => array(
+        //         "h1" => "Создание акции",
+        //         "id" => "",
+        //         "title" => $item->title,
+        //         "city" => "",
+        //         "duration" => "",
+        //         "price" => "",
+        //         "link" => "",
+        //         "body_short" => $item['body_short'],
+        //         "body_long" => "",
+        //         "body_goals" => "",
+        //         "body_course" => "",
+        //         "body_course" => "",
+        //         "gallery" => "",
+        //         "gallery_src" => "",
+        //         "new_price" => "",
+        //         "course_id" => "",
+        //         "date_start" => "",
+        //         "date_end" => "",
+        //     ),
+        //     "template" => array(
+        //         "button" => "Создать",
+        //     ),
+        // ); 
+        // return view("/client/account/course/create", $response);
     }
     /**
      * Display the search results
@@ -183,6 +184,10 @@ class ActionController extends Controller
                 "body_course" => $item["body_course"],
                 "gallery" => $item["gallery"]->last(),
                 "gallery_src" => @$item["gallery"]->last()->src,
+                "new_price" => $item["new_price"],
+                "course_id" => $item["course_id"],
+                "date_start" => $item["date_start"],
+                "date_end" => $item["date_end"],
             ),
             "template" => array(
                 "button" => "Сохранить",
@@ -321,5 +326,10 @@ class ActionController extends Controller
         );
         $response["template"]["paginated"] = view("/client/account/action/paginated", $response)->render();
         return $response;
+    }
+
+    public function getCourse($id)
+    {
+        return response()->json(Course::where('id', $id)->get());
     }
 }

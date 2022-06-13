@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\Action\Category;
 use App\Models\Gallery\Gallery;
 use App\Models\Gallery\Video;
+use App\Models\Course\Item as Course;
 
 class Item extends Model
 {
@@ -43,6 +44,10 @@ class Item extends Model
         "is_active_video",
         "is_visible",
         "sort",
+        "new_price",
+        "course_id",
+        "date_start",
+        "date_end",
     ];
 
     /**
@@ -117,6 +122,10 @@ class Item extends Model
         # ссылка на галлерею
         return $this->belongsToMany(Video::class, "video_action");
     }
-
+    public function course()
+    {
+        # ссылка на галлерею
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
 
 }

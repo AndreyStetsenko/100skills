@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 
 # Статистика
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\UsersExportController;
 
 # Клиентская часть: контент-страницы
 use App\Http\Controllers\Client\Page\PageController as ClientPageController;
@@ -74,7 +75,7 @@ use App\Models\Contact\Item as Contact;
 use App\Models\Menu;
 
 # маршруты модуля контент страница: в текущий метод попадают страницы, которые соответствуют условиям.
-Route::get('/{url}', [ClientPageController::class, 'view'])->where('url', '^(?!(admin|component|logout|login|register|verify-email|forgot-password|reset-password|confirm-password|action/contact|catalog|course|account|school-page|school|article|blog|contact|)(\/|$))[A-Za-z0-9+-_\/]+');
+Route::get('/{url}', [ClientPageController::class, 'view'])->where('url', '^(?!(admin|component|logout|login|register|verify-email|forgot-password|reset-password|confirm-password|action/contact|catalog|course|account|school-page|school|article|blog|contact|statistic|)(\/|$))[A-Za-z0-9+-_\/]+');
 
 # основные маршруты для верстки
 Route::get("/", function () {
@@ -157,8 +158,12 @@ Route::middleware(['auth', 'verified', 'school', 'role:account'])->group(functio
 	Route::get("/account", function () {
 		return Redirect::to("/account/profile", 301); 
 	});
-	Route::resource("/account/actions", ClientAccountActionController::class);
+	Route::get("/account/actions", [ClientAccountActionController::class, "index"])->name('actions.index');
+	Route::get("/account/actions/create", [ClientAccountActionController::class, "create"])->name('actions.create');
+	Route::post("/account/actions/create", [ClientAccountActionController::class, "store"])->name('actions.store');
 	Route::post("/account/actions/visible", [ClientAccountActionController::class, "visible"]);
+	Route::post("/account/actions/{slug?}", [ClientAccountActionController::class, "view"])->name('actions.view');
+	Route::get("/account/actions/get-course/{id?}", [ClientAccountActionController::class, "getCourse"])->name('actions.get-course');
 
 	Route::resource("/account/courses", ClientAccountCourseController::class);
 	Route::post("/account/courses/visible", [ClientAccountCourseController::class, "visible"]);
@@ -249,6 +254,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 	# Каталог, галерея
 	# Раздел "Учет школ и преподавателей"
 	Route::resource('/component/school', PanelSchoolController::class);
+	Route::resource('/component/school/stat{?id}', PanelSchoolController::class);
 	Route::post('/component/school/gallery', [PanelSchoolController::class, 'gallery']);
 	Route::post('/component/school/sort', [PanelSchoolController::class, 'sort']); # маршрут для сортировки
 
@@ -260,11 +266,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
 	Route::resource('/component/audio', AudioController::class);
 });
 
-Route::group([
-		'prefix' => 'statistic'
-], function () {
-	Route::post('/statistic/store', [StatisticsController::class, 'store']);
-});
+Route::get('/statistic/get', [UsersExportController::class, 'export'])->name('statistic.get');
 
 
 

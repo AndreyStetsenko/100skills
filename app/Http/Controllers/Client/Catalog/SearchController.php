@@ -190,6 +190,7 @@ class SearchController extends Controller
     public function show(Request $request, $slug)
     {
         $item = Course::latest()->with(["gallery", "similar", "similar.gallery"])->where("slug", "=", $slug)->firstOrFail();
+        $course = Course::where('slug', $slug)->first();
 
         $response = array(
             "template" => array(
@@ -198,7 +199,9 @@ class SearchController extends Controller
             "item" => $item,
         );   
         # $response["template"]["render"] = view( "client/catalog/paginated", $response)->render();
-        return view( "client/course/index", $response);    
+        return view( "client/course/index", [
+            'course' => $course,
+        ]);    
     }
 
 

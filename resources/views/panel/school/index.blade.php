@@ -104,7 +104,7 @@
                                      @{{ item['title'] }}
                                 </div>
                                 <div style="justify-self: flex-end;">
-                                    
+                                    <a href="" @click.prevent='exportStat($event, item)'><span class="material-icons" title='Скачать статистику'>download</span></a>
                                 </div>
                                 <div style="justify-self: flex-end;">
                                     <form v-if="item['is_visible']">
@@ -1135,6 +1135,22 @@
                         vm.showToast(`Видимость объекта '${vm.form.createTask.inputs.title}' изменена.`);
                     }
                 });
+            },
+
+            exportStat: function(event, item)
+            {
+                var request_data = this.prepareInputObjectToRequest();
+                
+                fetch(`/component/school/stat/${item.id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-Token": this.form.csrf
+                    },
+                    method: 'PUT',
+                    body: JSON.stringify(request_data)
+                })
             },
             /*
              *

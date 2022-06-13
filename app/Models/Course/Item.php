@@ -136,6 +136,11 @@ class Item extends Model
         # ссылка на галлерею
         return $this->hasOne(School::class, "id", "school_id");
     }
+    public function action()
+    {
+        # ссылка на галлерею
+        return $this->hasOne(Action::class, "course_id", "id");
+    }
 
 
 }
