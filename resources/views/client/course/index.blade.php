@@ -87,10 +87,10 @@
                 <div class="row">
                     <div class="col-md-7">
                         <h2>Чему Вы научитесь:</h2>
-                        {{ $course->body_goals ?? 'Текст не указан.' }}
+                        {!! $course->body_goals ?? 'Текст не указан.' !!}
 
                         <h2>Описание курса</h2>
-                        {{ $course->body_long ?? 'Текст не указан.' }}
+                        {!! $course->body_long ?? 'Текст не указан.' !!}
                         
 
                         <a style="display: block; width: max-content;" href="{{ $course->link }}" class="btn btn-red mt-4">Перейти на сайт курса</a>
