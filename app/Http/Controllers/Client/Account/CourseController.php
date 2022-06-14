@@ -11,6 +11,7 @@ use App\Models\Course\Item as Course;
 use App\Models\Course\Category as Category;
 use App\Models\School\Item as School;
 use App\Models\Gallery\Gallery;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -25,17 +26,23 @@ class CourseController extends Controller
     {   
         # необходимые данные
         # $items = Course::where("title", "like", "%{$request->input('query')}%")->get(); 
-        $response = array(
-            "items" =>  (!is_null($this->school()) ? $this->school()->course : null),
-            "school" => $this->school(),
-            "template" => array(
-                "paginated" => "",
-            ),
-        );
-        # dd(__METHOD__, $response);
-        $response["template"]["paginated"] = view("/client/account/course/paginated", $response)->render();
+        // $response = array(
+        //     "items" =>  (!is_null($this->school()) ? $this->school()->course : null),
+        //     "school" => $this->school(),
+        //     "template" => array(
+        //         "paginated" => "",
+        //     ),
+        // );
+        // # dd(__METHOD__, $response);
+        // $response["template"]["paginated"] = view("/client/account/course/paginated", $response)->render();
 
-        return view("/client/account/courses", $response);
+        // return view("/client/account/courses", $response);
+
+        $courses = School::where("user_id", Auth::id())->first()->course;
+
+        return view("/client/account/courses", [
+            "courses" => $courses,
+        ]);
     }
 
     /**

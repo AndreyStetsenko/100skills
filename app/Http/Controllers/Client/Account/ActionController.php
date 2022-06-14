@@ -12,6 +12,7 @@ use App\Models\School\Item as School;
 use App\Models\Course\Item as Course;
 use App\Models\Gallery\Gallery;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ActionController extends Controller
 {
@@ -26,17 +27,23 @@ class ActionController extends Controller
     {   
         # необходимые данные
         # $items = Item::where("title", "like", "%{$request->input('query')}%")->get(); 
-        $response = array(
-            "items" => (!is_null($this->items()) ? $this->items()->action : null),
-            "school" => $this->items(),
-            "template" => array(
-                "paginated" => "",
-            ),
-        );
-        // dd(__METHOD__, $response);
-        $response["template"]["paginated"] = view("/client/account/action/paginated", $response)->render();
+        // $response = array(
+        //     "items" => (!is_null($this->items()) ? $this->items()->action : null),
+        //     "school" => $this->items(),
+        //     "template" => array(
+        //         "paginated" => "",
+        //     ),
+        // );
+        // // dd(__METHOD__, $response);
+        // $response["template"]["paginated"] = view("/client/account/action/paginated", $response)->render();
 
-        return view("/client/account/action/index", $response);
+        // return view("/client/account/action/index", $response);
+
+        $actions = School::where("user_id", Auth::id())->first()->action;
+
+        return view("/client/account/action/index", [
+            "actions" => $actions,
+        ]);
     }
 
     /**
@@ -78,6 +85,10 @@ class ActionController extends Controller
         $item = new Item;
         $item->fill($request->all());
         $item->is_visible = 1;
+        # добавляем школу
+        $school = School::where("user_id", auth()->user()->id)->first()->id;
+        $item->school_id = $school;
+
         $item->save();
 
         return redirect()->route("actions.index");
@@ -163,37 +174,18 @@ class ActionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $slug)
+    public function show(Request $request, $id)
     {
 
-        $item = Item::where("slug", $slug)->with(["gallery"])->first();
+        $action = Item::where("id", $id)->firstOrFail();
+        $school_id = School::where("user_id", auth()->user()->id)->first()->id;
+        $courses = Course::where('school_id', $school_id)->get();
 
-        $response = array(
-            "form" => array(
-                "h1" => "",
-                "id" => $item["id"],
-                "title" => $item["title"],
-                "city" => $item["city"],
-                "duration" => $item["duration"],
-                "price" => $item["price"],
-                "link" => $item["link"],
-                "body_short" => $item["body_short"],
-                "body_long" => $item["body_long"],
-                "body_goals" => $item["body_goals"],
-                "body_course" => $item["body_course"],
-                "body_course" => $item["body_course"],
-                "gallery" => $item["gallery"]->last(),
-                "gallery_src" => @$item["gallery"]->last()->src,
-                "new_price" => $item["new_price"],
-                "course_id" => $item["course_id"],
-                "date_start" => $item["date_start"],
-                "date_end" => $item["date_end"],
-            ),
-            "template" => array(
-                "button" => "Сохранить",
-            ),
-        );
-        return view("/client/account/action/show", $response);
+        
+        return view("/client/account/action/show", [
+            "action" => $action,
+            "courses" => $courses
+        ]);
     }
 
 
@@ -206,19 +198,17 @@ class ActionController extends Controller
      */
     public function update(ItemRequest $request, $id)
     {
-        if ( auth()->user()->id == null ) {
-            return;
-        }
-        $validatedData = $request->validated();
-        $school = School::where("user_id", auth()->user()->id)->first();
-        $validatedData["author"] = $author = $school->title;
-        $validatedData["school_id"] = $school_id = $school->id;
-        $validatedData["is_visible"] = 1;
-        $validatedData["sort"] = Item::count() + 1;
-
-
-        # поиск обновляемой записи
-        $item = $item_original = Item::findOrFail($id);
+        $item = Item::where("id", $id)->firstOrFail();
+        
+        $item->title = $request->input("title");
+        $item->course_id = $request->input("course_id");
+        $item->new_price = $request->input("new_price");
+        $item->date_start = $request->input("date_start");
+        $item->date_end = $request->input("date_end");
+        $item->body_short = $request->input("body_short");
+        $item->body_long = $request->input("body_long");
+        $item->body_long = $request->input("body_long");
+        $item->update();
 
         # в лекции есть галерея:
         if ( $request->input('gallery') != null ) {
@@ -232,7 +222,7 @@ class ActionController extends Controller
                     # в базе нет (id в запросе отсутствует) - добавляем фото
                     $gallery_item = new Gallery($value);
                     
-                    $gallery_item["src"] = ($gallery_item["src"] == null) ? ("/public" . $value["path"]) : $gallery_item["src"]; 
+                    $gallery_item["src"] = ($gallery_item["src"] == null) ? ($value["path"]) : $gallery_item["src"]; 
 
                     # сохраняем
                     $item->gallery()->save($gallery_item);
@@ -246,19 +236,19 @@ class ActionController extends Controller
             $item->save();
         }
 
-        $result = $item->update($validatedData);
+        
 
         # после обновления
-        $response = array(
-            'result' => array(
-                'status' => $result,
-                'item' => Item::with(["category", "gallery"])->find($id),
-            ),
-            'success' => array(
-                "Информация сохранена."
-            ),
-        );
-        return $response;
+        // $response = array(
+        //     'result' => array(
+        //         'status' => $result,
+        //         'item' => Item::with(["category", "gallery"])->find($id),
+        //     ),
+        //     'success' => array(
+        //         "Информация сохранена."
+        //     ),
+        // );
+        return redirect()->route('actions.view', $id);
 
     }
     /**

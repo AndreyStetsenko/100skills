@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\StatisticsController;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {

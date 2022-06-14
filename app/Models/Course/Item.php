@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 
 use App\Models\School\Item as School;
 use App\Models\Action\Item as Action;
+use App\Models\Course\Item as Course;
 use App\Models\Course\Category;
 use App\Models\Gallery\Gallery;
 
@@ -141,6 +142,10 @@ class Item extends Model
         # ссылка на галлерею
         return $this->hasOne(Action::class, "course_id", "id");
     }
-
+    public function course()
+    {
+        # ссылка на галлерею
+        return $this->hasOne(Course::class, "id");
+    }
 
 }

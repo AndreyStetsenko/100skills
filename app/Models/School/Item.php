@@ -147,7 +147,7 @@ class Item extends Model
     public function action()
     {
         # ссылка на галлерею
-        return $this->belongsToMany(Action::class, "school_action", "school_id", "item_id");
+        return $this->hasMany(Action::class, "school_id")->orderBy('id', 'desc');
     }
     
     public function tarif()

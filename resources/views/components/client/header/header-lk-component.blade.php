@@ -29,15 +29,9 @@
                     
 
                     <div class="school-img-box" style="overflow: hidden; width: 49px; height: 49px;">
-                        <?php if ( !is_null($item["gallery"]) && $item["gallery"]->first() != null ): ?>
-                            <img data-src="<?=$item["gallery"]->first()->src ?>"
+                        <img data-src="{{ $item->gallery->last()->src ?? '/resources/img/no-photo.png' }}"
                                  style="width: 100%; height: 100%; object-fit: cover;"
                                  class="school-img" />
-                        <?php else: ?>
-                            <img src="/resources/img/no-photo.png" 
-                                 style="width: 100%; height: 100%; object-fit: cover;" 
-                                 class="school-img" />
-                        <?php endif ?>
                     </div>
                     <div>
                         <a style="cursor: pointer;" class="shool-info-btn">

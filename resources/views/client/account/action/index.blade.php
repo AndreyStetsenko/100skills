@@ -54,13 +54,13 @@
                             </th>
                             <th class="col-md-2"><span>Изображение</span></th>
                             <th class="col-md-3"><span>Наименование</span></th>
-                            <th class="col-md-2"><span></span></th>
+                            <th class="col-md-2"><span>Цена</span></th>
                             <th class="col-md-2"><span>Вкл/Выкл</span></th>
                             <th class="col-md-2"><span>Действие</span></th>
                         </tr>
                     </thead>
                     <tbody data-component="course-tbody">
-                        <?=$template["paginated"] ?>
+                        @include('client.account.action.paginated')
                     </tbody>
                 </table>
             </div>

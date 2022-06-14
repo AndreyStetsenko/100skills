@@ -141,7 +141,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -285,6 +285,7 @@ return [
 
         'YandexGeocoding' => Yandex\Geocode\Facades\YandexGeocodeFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Carbon' => 'Carbon\Carbon',
 
     ],
 

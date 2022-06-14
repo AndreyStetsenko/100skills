@@ -12,6 +12,7 @@ use App\Models\Action\Category;
 use App\Models\Gallery\Gallery;
 use App\Models\Gallery\Video;
 use App\Models\Course\Item as Course;
+use App\Models\School\Item as School;
 
 class Item extends Model
 {
@@ -125,7 +126,12 @@ class Item extends Model
     public function course()
     {
         # ссылка на галлерею
-        return $this->belongsTo(Course::class, 'course_id', 'id');
+        return $this->hasOne(Course::class, 'id', 'course_id');
+    }
+    public function school()
+    {
+        # ссылка на галлерею
+        return $this->hasOne(School::class, "id", "school_id");
     }
 
 }

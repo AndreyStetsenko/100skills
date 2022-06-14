@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Course\Category as Category;
 use App\Models\Course\Item as Course;
 
+use Carbon\Carbon;
+
 class PopularComponent extends Component
 {
 
@@ -40,11 +42,13 @@ class PopularComponent extends Component
     {
         $courses = Course::where("is_visible", 1)->get();
         $categories = Category::where("parent_id", 0)->with(["childs", "catalog"])->orderBy("sort")->get();
+        $carbon = new Carbon();
 
         return view("components.client.catalog.popular-component", [
             'items' => $this->items,
             'categories' => $categories,
-            'courses' => $courses
+            'courses' => $courses,
+            'carbon' => $carbon,
         ]);
     }
 }
