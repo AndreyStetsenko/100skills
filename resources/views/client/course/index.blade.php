@@ -24,7 +24,7 @@
                             {{ $course->school->title ?? 'Наименование не указано.' }}
                         </h1>
                         <p>
-                            {{ $course->body_short ?? 'Краткое описание не указано.' }}
+                            {!! $course->body_short ?? 'Краткое описание не указано.' !!}
                         </p>
 
                         <a href="{{ $course->link }}" class="btn btn-red">
