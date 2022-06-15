@@ -7,10 +7,10 @@
     <tr>
         <td><input value="{{ $item->id }}" data-component="deleting" class="uk-checkbox" type="checkbox"></td>
         <td>
-            <img class="uk-preserve-width" src="{{ $item->gallery->last()->src ?? '/public/files/no-image.png' }}" width="85" alt="">
+            <h5><a href="/account/actions/{{ $item->id }}">{{ $item->title }}</a></h5>
         </td>
         <td>
-            <h5><a href="/account/actions/{{ $item->id }}">{{ $item->title }}</a></h5>
+            {{ date('d.m.Y', strtotime($item->date_end)) }}
         </td>
         <td>
             {{ $item->new_price }}

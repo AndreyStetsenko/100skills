@@ -13,6 +13,7 @@ use App\Models\Course\Item as Course;
 use App\Models\Gallery\Gallery;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ActionController extends Controller
 {
@@ -67,10 +68,13 @@ class ActionController extends Controller
      */
     public function create(Request $request)
     {
+        $carbon = Carbon::now();
         $school_id = School::where("user_id", auth()->user()->id)->first()->id;
         $courses = Course::where('school_id', $school_id)->get();
+        
         return view("/client/account/action/create", [
-            "courses" => $courses
+            "courses" => $courses,
+            "carbon" => $carbon,
         ]);
     }
 
@@ -176,7 +180,7 @@ class ActionController extends Controller
      */
     public function show(Request $request, $id)
     {
-
+        $carbon = Carbon::now();
         $action = Item::where("id", $id)->firstOrFail();
         $school_id = School::where("user_id", auth()->user()->id)->first()->id;
         $courses = Course::where('school_id', $school_id)->get();
@@ -184,7 +188,8 @@ class ActionController extends Controller
         
         return view("/client/account/action/show", [
             "action" => $action,
-            "courses" => $courses
+            "courses" => $courses,
+            "carbon" => $carbon
         ]);
     }
 

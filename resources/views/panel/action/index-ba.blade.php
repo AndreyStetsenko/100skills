@@ -540,12 +540,35 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
+                                    <input placeholder="Заголовок" 
+                                           id="title" 
+                                           type="text" 
+                                           class="validate"
+                                           v-model="form.createTask.inputs.title" >
+                                    <label for="title">Заголовок</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                <blockquote faq>
+                                    если url пустой, он будет сгенерирован из заголовка автоматически при сохранении записи
+                                </blockquote>
                                     <input placeholder="URL" 
                                            id="slug" 
                                            type="text" 
                                            class="validate"
                                            v-model="form.createTask.inputs.slug" >
                                     <label for="slug">URL страницы</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field-custom col s12">
+                                    <label>Категория</label>
+                                    <select class="browser-default" v-model="form.createTask.inputs.category_id">
+                                        <option value="" disabled selected>Выберите категорию</option>
+                                        <option value="-">-</option>
+                                        <option v-for='(item, key) in category.list' v-bind:value="item.id">@{{ item['title'] }}</option>
+                                    </select>
                                 </div>
                             </div>
 
