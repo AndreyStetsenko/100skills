@@ -101,15 +101,9 @@
                     </div>
                     <div class="col-md-auto mt-3">
                         <span>Сайт</span>
-                        <?php if ( isset($item['website']) && !is_null($item['website']) ): ?>
-                            <a href="<?=$item['website'] ?>" class="contact-link">
-                                <?=$item['website'] ?>
-                            </a>
-                        <?php else: ?>
-                            <a class="contact-link">
-                                -
-                            </a>
-                        <?php endif ?>
+                        <a @if ($item['link']) href="{{ $item['link'] }}" @endif class="contact-link">
+                            {{ $item['link'] ?? '-' }}
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -185,15 +179,9 @@
                     </div>
                     <div class="col-md-auto mt-3">
                         <span>Сайт</span>
-                        <?php if ( isset($item['website']) && !is_null($item['website']) ): ?>
-                            <a href="<?=$item['website'] ?>" class="contact-link">
-                                <?=$item['website'] ?>
-                            </a>
-                        <?php else: ?>
-                            <a class="contact-link">
-                                -
-                            </a>
-                        <?php endif ?>
+                        <a @if ($item['link']) href="{{ $item['link'] }}" @endif class="contact-link">
+                            {{ $item['link'] ?? '-' }}
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-2">
