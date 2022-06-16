@@ -140,7 +140,7 @@ class Item extends Model
     public function action()
     {
         # ссылка на галлерею
-        return $this->hasOne(Action::class, "course_id", "id");
+        return $this->hasOne(Action::class, "course_id");
     }
     public function course()
     {

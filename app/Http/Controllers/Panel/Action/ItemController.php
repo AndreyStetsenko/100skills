@@ -161,6 +161,10 @@ class ItemController extends Controller
         # сохраним slug
         $item->slug = $request->input('slug');
 
+        $item->new_price = $request->input('new_price');
+        $item->date_start = $request->input('date_start');
+        $item->date_end = $request->input('date_end');
+
         # обновим основную запись
         $result = $item->update($validatedData);
         // dd(__METHOD__, $validatedData);

@@ -244,7 +244,7 @@
                                     Наименовение
                                 </div>
                                 <div>
-                                    Категория
+                                    
                                 </div>
                                 <div>
                                     Видимость
@@ -274,17 +274,7 @@
                                      @{{ item['title'] }}
                                 </div>
                                 <div>
-                                    <section data-component="select-category">
-                                        <select class="browser-default" 
-                                                v-model="item.category_id"
-                                                v-bind:title="item.category_id"
-                                                @change.prevent='updateCategory($event, item)'
-                                                autocomplete="off"
-                                                >
-                                            <option value="null" selected>Не указано</option>
-                                            <option v-for='(item, key) in category.list' v-bind:value="item.id">@{{ item['title'] }}</option>
-                                        </select>
-                                    </section>
+                                    
                                 </div>
                                 <div style="justify-self: flex-end;">
                                     <form v-if="item['is_visible']">
@@ -548,8 +538,36 @@
                                     <label for="slug">URL страницы</label>
                                 </div>
                             </div>
-
                             <div class="row">
+                                <div class="input-field col s12">
+                                    <input placeholder="URL" 
+                                           id="new_price" 
+                                           type="text" 
+                                           class="validate"
+                                           v-model="form.createTask.inputs.new_price" >
+                                    <label for="new_price">Новая цена</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input placeholder="URL" 
+                                           id="date_start" 
+                                           type="date" 
+                                           class="validate"
+                                           v-model="form.createTask.inputs.date_start">
+                                    <label for="date_start">Дата начала</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="URL" 
+                                           id="date_end" 
+                                           type="date" 
+                                           class="validate"
+                                           v-model="form.createTask.inputs.date_end" >
+                                    <label for="date_end">Дата окончания</label>
+                                </div>
+                            </div>
+
+                            {{-- <div class="row">
                                 <div class="col s12" input-field>
                                     <label default>
                                     <textarea 
@@ -572,14 +590,14 @@
                                         required='required' 
                                         v-model="form.createTask.inputs.body_long_edit"></textarea>
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col s12">
                                     <h6 style="font-weight: bold; border-bottom: 0px solid #555555c9; padding: 0 0 10px;">Дополнительная информация:</h6>
                                 </div>
                             </div>
-                                                        <div class="row">
+                            <div class="row">
                                 <div class="input-field col s12">
                                     <input placeholder="Title" 
                                            id="meta_title" 
@@ -618,8 +636,8 @@
                                            v-model="form.createTask.inputs.meta_canonical" >
                                     <label for="meta_canonical">Canonical (meta)</label>
                                 </div>
-                            </div>
-                            <div class="row file-field grey-label">
+                            </div> --}}
+                            {{-- <div class="row file-field grey-label">
                                 <div class="list">
                                     <ul>
                                         <li v-for='(item, key) in form.createTask.inputs.gallery.list'>
@@ -648,7 +666,7 @@
                                         <input class="file-path validate" type="text" style="border: unset; box-shadow: unset; color: transparent;">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -744,11 +762,17 @@
                     title: '',
                     parent_id: 0,
                     slug: '',
+                    new_price: '',
+                    date_start: '',
+                    date_end: ''
                 },
                 edit: {
                     title: '',
                     parent_id: '',
                     slug: '',
+                    new_price: '',
+                    date_start: '',
+                    date_end: ''
                 },
             }, 
             pagination: {
@@ -1034,6 +1058,10 @@
                     title: this.form.createTask.inputs.title,
                     slug: this.form.createTask.inputs.slug,
 
+                    new_price: this.form.createTask.inputs.new_price,
+                    date_start: this.form.createTask.inputs.date_start,
+                    date_end: this.form.createTask.inputs.date_end,
+
                     category_id: (this.form.createTask.inputs.category_id == "-" ? "" : this.form.createTask.inputs.category_id),
 
                     body_short: this.form.createTask.inputs.body_short,
@@ -1053,9 +1081,7 @@
                     catalog_video_id: this.form.createTask.inputs.video.id,
                     
                     gallery: this.form.createTask.inputs.gallery.list,
-                    video: this.form.createTask.inputs.video.list,
-
-
+                    video: this.form.createTask.inputs.video.list
                 };
                 return item_prepared;
             },
@@ -1095,6 +1121,10 @@
                     meta_keywords: item.meta_keywords != null ? item.meta_keywords : "",
                     meta_canonical: item.meta_canonical != null ? item.meta_canonical : "",
 
+                    new_price: item.new_price != null ? item.new_price : "",
+                    date_start: item.date_start != null ? item.date_start : "",
+                    date_end: item.date_end != null ? item.date_end : "",
+
                     is_visible: item.is_visible != null ? item.is_visible : "",
                 };
 
@@ -1115,6 +1145,11 @@
 
                     title: "",
                     slug: "",
+                    
+                    new_price: "",
+
+                    date_start: "",
+                    date_end: "",
 
                     category_id: "",
                     
@@ -1162,8 +1197,8 @@
 
                 /* при открытии модального окна - обновляем значение tiny */
                 // tinyMCE.get('body-edit').setContent(item_prepared.body);
-                tinyMCE.get('body_short_edit').setContent(item_prepared.body_short);
-                tinyMCE.get('body_long_edit').setContent(item_prepared.body_long);
+                // tinyMCE.get('body_short_edit').setContent(item_prepared.body_short);
+                // tinyMCE.get('body_long_edit').setContent(item_prepared.body_long);
 
                 this.initModal("edit-task");
             },
@@ -1305,8 +1340,8 @@
                 var vm = this;
                 var request_data = this.prepareInputObjectToRequest();
                 
-                request_data.body_short = tinyMCE.get("body_short_edit").getContent();
-                request_data.body_long = tinyMCE.get("body_long_edit").getContent();
+                // request_data.body_short = tinyMCE.get("body_short_edit").getContent();
+                // request_data.body_long = tinyMCE.get("body_long_edit").getContent();
 
                 var item_id = request_data.id;
                 fetch(`/component/action/${item_id}`, {

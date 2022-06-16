@@ -87,8 +87,20 @@ class ActionController extends Controller
     public function store(ItemRequest $request)
     {
         $item = new Item;
+        $isItem = $item->where('course_id', '=', $request->course_id)->first();
+
+        if ( $isItem !== null )
+        {
+            return redirect()->back()->with('error', 'Данный курс уже имеет акцию');
+        }
+     
         $item->fill($request->all());
         $item->is_visible = 1;
+        // $item->date_start = Carbon::now()->format('dd.mm.YYYY');
+        $item->date_start = Carbon::createFromFormat('Y-m-d H:i:s', now())->format('Y-m-d');
+        // $item->date_end = Carbon::now()->addDays(30)->toDateString();
+        $item->date_end = Carbon::createFromFormat('Y-m-d H:i:s', now()->addDays(30))->format('Y-m-d');
+        
         # добавляем школу
         $school = School::where("user_id", auth()->user()->id)->first()->id;
         $item->school_id = $school;
@@ -96,80 +108,6 @@ class ActionController extends Controller
         $item->save();
 
         return redirect()->route("actions.index");
-
-        // # валидация входящих полей
-        // $validatedData = $request->validated();
-
-        // # создание объекта с данными
-        // $item = new Item($validatedData);        
-
-        // # выставляем видимость по-умолчанию
-        // $item->is_visible = 1;
-
-        // # сохранение объекта
-        // $result = $item->save();
-        
-        // # привяжем школу
-        // $school = School::where("user_id", auth()->user()->id)->first();
-        // $school->action()->attach($item->id);
-        // # $item->school_id = $school;
-        
-
-        // # в лекции есть галерея:
-        // if ( $request->input('gallery') != null ) {
-        //     $gallery = $request->input("gallery");
-        //     # добавляем к $item ссылку на gallery && сохраняем relation gallery
-        //     if ( gettype($request->input("gallery")) === "string" ) {
-        //         $gallery = json_decode($request->input("gallery"), 1);
-        //     }
-        //     foreach ( $gallery as $key => $value ) {
-        //         if( !isset($value['id']) ){
-        //             # в базе нет (id в запросе отсутствует) - добавляем фото
-        //             $gallery_item = new Gallery($value);
-        //             $gallery_item["src"] = ($gallery_item["src"] == null) ? ("/public" . $value["path"]) : $gallery_item["src"]; 
-
-        //             $gallery_item->save();
-        //             $item->gallery()->save($gallery_item);
-        //             # $item->gallery()->attach($gallery_item);
-                    
-        //         }else{
-        //             # уже в базе
-        //         }
-        //     }
-
-        //     # обновим привязку
-        //     $item->is_active_gallery = 1;
-        //     $item->save();
-
-        // }
-
-        // $response = array(
-        //     "messages" => "Новая акция добавлена.",
-        //     "form" => array(
-        //         "h1" => "Создание акции",
-        //         "id" => "",
-        //         "title" => $item->title,
-        //         "city" => "",
-        //         "duration" => "",
-        //         "price" => "",
-        //         "link" => "",
-        //         "body_short" => $item['body_short'],
-        //         "body_long" => "",
-        //         "body_goals" => "",
-        //         "body_course" => "",
-        //         "body_course" => "",
-        //         "gallery" => "",
-        //         "gallery_src" => "",
-        //         "new_price" => "",
-        //         "course_id" => "",
-        //         "date_start" => "",
-        //         "date_end" => "",
-        //     ),
-        //     "template" => array(
-        //         "button" => "Создать",
-        //     ),
-        // ); 
-        // return view("/client/account/course/create", $response);
     }
     /**
      * Display the search results

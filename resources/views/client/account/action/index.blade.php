@@ -52,7 +52,7 @@
                             <th class="col-md-1">
                                 <input data-component="deleting-all" value="all" class="uk-checkbox" type="checkbox"></td>
                             </th>
-                            <th class="col-md-2"><span>Наименование</span></th>
+                            <th class="col-md-2"><span>Название курса</span></th>
                             <th class="col-md-3"><span>Дата окончания</span></th>
                             <th class="col-md-2"><span>Цена</span></th>
                             <th class="col-md-2"><span>Вкл/Выкл</span></th>

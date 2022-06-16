@@ -7,7 +7,7 @@
     <tr>
         <td><input value="{{ $item->id }}" data-component="deleting" class="uk-checkbox" type="checkbox"></td>
         <td>
-            <h5><a href="/account/actions/{{ $item->id }}">{{ $item->title }}</a></h5>
+            <h5><a href="/account/actions/{{ $item->id }}">{{ $item->course->title }}</a></h5>
         </td>
         <td>
             {{ date('d.m.Y', strtotime($item->date_end)) }}
