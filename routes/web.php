@@ -84,6 +84,7 @@ Route::get("/", function () {
 
 # маршрут для страницы курсы рядом: веб
 Route::get("/catalog/nearme", [ClientCatalogSearchController::class, "nearme"]);
+Route::get("/catalog/action", [ClientCatalogSearchController::class, "action"]);
 
 # маршрут для поиска в каталоге
 Route::post("/catalog/search", [ClientCatalogSearchController::class, "search"]);

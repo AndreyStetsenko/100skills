@@ -467,6 +467,98 @@ var submitCourseUpdateForm = function() {
     });
     return;
 }
+var submitActionUpdateForm = function() {
+    /* валидация */
+    let isValid = 1;
+
+
+
+    /* формирование объекта отправки */
+    let fd = new FormData();
+    let form = document.querySelector(`form[data-component="account-course-form"]`);
+    let request = {};
+   
+    request["id"] = form.querySelector(`input[name='id']`).value;
+    request["title"] = form.querySelector(`input[name='title']`).value;
+    request["category_id"] = form.querySelector(`select[name='category_id']`).value;
+    request["is_certificate"] = form.querySelector(`[name='is_certificate']`).checked;
+    request["is_jobable"] = form.querySelector(`[name='is_jobable']`).checked;
+    request["is_online"] = form.querySelector(`[name='is_online']`).checked;
+    request["is_proffession"] = form.querySelector(`[name='is_proffession']`).checked;
+
+    request["duration"] = form.querySelector(`input[name='duration']`).value;
+    request["price"] = form.querySelector(`input[name='price']`).value;
+    request["link"] = form.querySelector(`input[name='link']`).value;
+
+    /**
+     * если на странице установлен tinyMCE редактор - получаем данные из него 
+     */
+    if ( window.tinyMCE != null ) {
+        request["body_short"] = tinyMCE.get(`body_short`).getContent();
+        request["body_goals"] = tinyMCE.get(`body_goals`).getContent();
+        request["body_long"] = tinyMCE.get(`body_long`).getContent();  
+    }else{
+        request["body_short"] = form.querySelector(`[name='body_short']`).value;
+        request["body_goals"] = form.querySelector(`[name='body_goals']`).value;
+        request["body_long"] = form.querySelector(`[name='body_long']`).value;     
+    }
+    
+    // tinyMCE.get('body_short_edit').setContent(item_prepared.body_short);
+    // request_data.body_short = tinyMCE.get("body_short").getContent();
+
+    console.log(request)
+    /* не должен быть массив т.к в update CourseController будет ошибка */
+    request["gallery"] = JSON.parse(form.querySelector(`[name="gallery"]`).value);     
+    
+    /*собираем курсы*/
+    course_list = [];
+    for( let course of document.querySelectorAll(`[data-component="custom-search"] [data-ul="selected"] li`) ){
+        course_list.push(course.dataset.value);
+    }
+    request["course"] = course_list;
+
+     // подготовка разметки для ответа 
+    document.querySelector(`[data-component="toast"]`).classList.remove("show");
+    /* отправка fetch */
+    fetch(`/account/actions/${form.querySelector(`input[name='id']`).value}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json, text-plain, */*",
+            "X-Requested-With": "XMLHttpRequest",
+            'X-CSRF-TOKEN': document.querySelector(`meta[name='csrf-token']`).getAttribute('content')
+        },
+        method: 'PUT',
+        credentials: "same-origin",
+        body: JSON.stringify(request)
+    })
+    .then(response => response.json())
+    .then(function (result) {
+        
+        if ( result["errors"] != null ) {
+            if ( document.querySelector(`[data-component="toast"]`) != null ) {}
+            for( let err in result["errors"] ){
+                let template = `<li>${result["errors"][err]}</li>`;
+                document.querySelector(`[data-component="toast"]`).innerHTML = "";
+                document.querySelector(`[data-component="toast"]`).insertAdjacentHTML("afterbegin", template);
+                document.querySelector(`[data-component="toast"]`).classList.add("show");
+            }
+            return;
+        }
+        if ( result["success"] != null ) {
+            if ( document.querySelector(`[data-component="toast"]`) != null ) {}
+            for( let err in result["success"] ){
+                let template = `<li>${result["success"][err]}</li>`;
+                document.querySelector(`[data-component="toast"]`).innerHTML = "";
+                document.querySelector(`[data-component="toast"]`).insertAdjacentHTML("afterbegin", template);
+                document.querySelector(`[data-component="toast"]`).classList.add("show");
+            }
+            return;
+        }
+        console.log(result);
+        return;
+    });
+    return;
+}
 var submitProfileUpdateForm = function() {
     /* валидация */
     let isValid = 1;
@@ -894,6 +986,27 @@ var changeMassAccountCourseDelete = function(event)
     /* подготовка fetch */
     let request = {};
     request["id"] = course_ids;
+
+    deleteRequest(route, request);
+    return;
+}
+
+var changeMassAccountActionDelete = function(event)
+{
+    let route = event.currentTarget.dataset.route;
+    
+    if ( document.querySelectorAll(`[data-component="deleting"]`).length == 0 ) {
+        return;
+    }
+    let action_ids = [];
+    for( let ch of document.querySelectorAll(`[data-component="deleting"]`) ){
+        if ( ch.checked ) {
+            action_ids.push(ch.value);
+        }
+    }
+    /* подготовка fetch */
+    let request = {};
+    request["id"] = action_ids;
 
     deleteRequest(route, request);
     return;

@@ -96,15 +96,17 @@ class ActionController extends Controller
      
         $item->fill($request->all());
         $item->is_visible = 1;
-        // $item->date_start = Carbon::now()->format('dd.mm.YYYY');
         $item->date_start = Carbon::createFromFormat('Y-m-d H:i:s', now())->format('Y-m-d');
-        // $item->date_end = Carbon::now()->addDays(30)->toDateString();
         $item->date_end = Carbon::createFromFormat('Y-m-d H:i:s', now()->addDays(30))->format('Y-m-d');
         
         # добавляем школу
         $school = School::where("user_id", auth()->user()->id)->first()->id;
         $item->school_id = $school;
 
+        $course = Course::where("id", $request->input("course_id"))->firstOrFail();
+        $course->is_action = '1';
+
+        $course->update();
         $item->save();
 
         return redirect()->route("actions.index");

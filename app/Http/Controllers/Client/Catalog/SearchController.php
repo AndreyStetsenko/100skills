@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Course\Category as Category;
 use App\Models\Course\Item as Course;
 use App\Models\School\Item as School;
+use App\Models\Action\Item as Action;
 
 class SearchController extends Controller
 {
@@ -46,6 +47,8 @@ class SearchController extends Controller
      */
     public function store(Request $request)
     {
+        $is_action = Action::where('course_id');
+
         # заполняем $where, $whereIn
         $whereIn = array();
         $where = array();
