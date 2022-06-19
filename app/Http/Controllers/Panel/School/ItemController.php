@@ -20,7 +20,7 @@ class ItemController extends Controller
     public function index()
     {
         $response = array();
-        $response['items'] = Item::latest()->with(["course"])->get();
+        $response['items'] = Item::latest()->with(["course", "user"])->get();
         return view("panel/school/index", $response);
     }
 

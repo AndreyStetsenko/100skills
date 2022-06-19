@@ -65,109 +65,183 @@
                 </div>
 
                 <div row>
-                    <div class="tabs">
+                    <div class="tabscont">
                         <input type="radio" name="tabs" id="tabone" checked="checked">
-                        <label for="tabone">Tab One</label>
-                        <div class="tab">
-                          <h1>Tab One Content</h1>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <label for="tabone" class="label waves-effect waves-light btn-small">Школы</label>
+                        <div class="tabcont">
+                          
+                            <article>
+                                <div class="list-container">
+                                    <div class="list-item item-head">
+                                         <div>
+                                            Порядок
+                                        </div>
+                                        <div>
+                                            Наименовение
+                                        </div>
+                                        <div>
+                                            Статистика
+                                        </div>
+                                        <div>
+                                            Видимость
+                                        </div>
+                                        <div>
+                                            Удаление
+                                        </div>
+                                        <div>
+                                            Управление
+                                        </div>
+                                    </div>
+                                    <div class="list-item item-body" 
+                                         v-for='item in paginateItemList' 
+                                         v-if="item['user']['type'] === 'school'"
+                                         :key='item.id' 
+                                         v-bind:class="[ isAboutToDelete(item.id) ? 'about-to-delete' : '']">
+                                        <div>
+                                            <div data-component='sort-managment'>
+                                                <a href="!#" @click.prevent="changeSort($event, item, '-1')" class="btn" style="" title='Изменить позицию элемента'>
+                                                   <i class="material-icons right" style="">arrow_drop_up</i>
+                                                </a>                            
+                                                <a href="!#" @click.prevent="changeSort($event, item, '1')" class="btn" style="" title='Изменить позицию элемента'>
+                                                   <i class="material-icons right" style="">arrow_drop_down</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div>
+                                             @{{ item['title'] }}
+                                             <b> @{{ item['user']['type'] }}</b>
+                                        </div>
+                                        <div style="justify-self: flex-end;">
+                                            <a href="#!" @click.prevent='statExport($event, item)'><span class="material-icons" title='Скачать статистику'>download</span></a>
+                                        </div>
+                                        <div style="justify-self: flex-end;">
+                                            <form v-if="item['is_visible']">
+                                                <p>
+                                                  <label>
+                                                    <input class="filled-in" type="checkbox" checked v-model="item.is_visible" @change.prevent="updateVisible($event, item)"/>
+                                                    <span></span>
+                                                  </label>
+                                                </p>
+                                            </form>
+                                            <form v-else>
+                                                <p>
+                                                  <label>
+                                                    <input class="filled-in" type="checkbox"  v-model="item.is_visible" @change.prevent="updateVisible($event, item)"/>
+                                                    <span></span>
+                                                  </label>
+                                                </p>
+                                            </form>
+                                        </div>
+                                        <div style="justify-self: flex-end;">
+                                            <form>
+                                                <p>
+                                                  <label>
+                                                    <input class="filled-in" type="checkbox" v-model="form.removeItem.ids" v-bind:value="item.id"/>
+                                                    <span></span>
+                                                  </label>
+                                                </p>
+                                            </form>
+                                        </div>
+                                        <div name='manage' data-component="manage"> 
+                                            <a href="" @click.prevent='editItem($event, item)'><span class="material-icons" title='Редактировать'>border_color</span></a>
+                                            <a href="#remove-confirm" @click.prevent='removeItemConfirm($event, item)'><span class="material-icons" title='Удалить'>delete_outline</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
                         </div>
                         
                         <input type="radio" name="tabs" id="tabtwo">
-                        <label for="tabtwo">Tab Two</label>
-                        <div class="tab">
-                          <h1>Tab Two Content</h1>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        </div>
-                        
-                        <input type="radio" name="tabs" id="tabthree">
-                        <label for="tabthree">Tab Three</label>
-                        <div class="tab">
-                          <h1>Tab Three Content</h1>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                        <label for="tabtwo" class="label waves-effect waves-light btn-small">Преподаватели</label>
+                        <div class="tabcont">
+                          
+                            <article>
+                                <div class="list-container">
+                                    <div class="list-item item-head">
+                                         <div>
+                                            Порядок
+                                        </div>
+                                        <div>
+                                            Наименовение
+                                        </div>
+                                        <div>
+                                            Статистика
+                                        </div>
+                                        <div>
+                                            Видимость
+                                        </div>
+                                        <div>
+                                            Удаление
+                                        </div>
+                                        <div>
+                                            Управление
+                                        </div>
+                                    </div>
+                                    <div class="list-item item-body" 
+                                         v-for='item in paginateItemList' 
+                                         v-if="item['user']['type'] !== 'school'"
+                                         :key='item.id' 
+                                         v-bind:class="[ isAboutToDelete(item.id) ? 'about-to-delete' : '']">
+                                        <div>
+                                            <div data-component='sort-managment'>
+                                                <a href="!#" @click.prevent="changeSort($event, item, '-1')" class="btn" style="" title='Изменить позицию элемента'>
+                                                   <i class="material-icons right" style="">arrow_drop_up</i>
+                                                </a>                            
+                                                <a href="!#" @click.prevent="changeSort($event, item, '1')" class="btn" style="" title='Изменить позицию элемента'>
+                                                   <i class="material-icons right" style="">arrow_drop_down</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div>
+                                             @{{ item['title'] }}
+                                             <b> @{{ item['user']['type'] }}</b>
+                                        </div>
+                                        <div style="justify-self: flex-end;">
+                                            <a href="#!" @click.prevent='statExport($event, item)'><span class="material-icons" title='Скачать статистику'>download</span></a>
+                                        </div>
+                                        <div style="justify-self: flex-end;">
+                                            <form v-if="item['is_visible']">
+                                                <p>
+                                                  <label>
+                                                    <input class="filled-in" type="checkbox" checked v-model="item.is_visible" @change.prevent="updateVisible($event, item)"/>
+                                                    <span></span>
+                                                  </label>
+                                                </p>
+                                            </form>
+                                            <form v-else>
+                                                <p>
+                                                  <label>
+                                                    <input class="filled-in" type="checkbox"  v-model="item.is_visible" @change.prevent="updateVisible($event, item)"/>
+                                                    <span></span>
+                                                  </label>
+                                                </p>
+                                            </form>
+                                        </div>
+                                        <div style="justify-self: flex-end;">
+                                            <form>
+                                                <p>
+                                                  <label>
+                                                    <input class="filled-in" type="checkbox" v-model="form.removeItem.ids" v-bind:value="item.id"/>
+                                                    <span></span>
+                                                  </label>
+                                                </p>
+                                            </form>
+                                        </div>
+                                        <div name='manage' data-component="manage"> 
+                                            <a href="" @click.prevent='editItem($event, item)'><span class="material-icons" title='Редактировать'>border_color</span></a>
+                                            <a href="#remove-confirm" @click.prevent='removeItemConfirm($event, item)'><span class="material-icons" title='Удалить'>delete_outline</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
                         </div>
                       </div>
                 </div>
 
                 <div row>
-                    <article>
-                        <div class="list-container">
-                            <div class="list-item item-head">
-                                 <div>
-                                    Порядок
-                                </div>
-                                <div>
-                                    Наименовение
-                                </div>
-                                <div>
-                                    Статистика
-                                </div>
-                                <div>
-                                    Видимость
-                                </div>
-                                <div>
-                                    Удаление
-                                </div>
-                                <div>
-                                    Управление
-                                </div>
-                            </div>
-                            <div class="list-item item-body" 
-                                 v-for='item in paginateItemList' 
-                                 :key='item.id' 
-                                 v-bind:class="[ isAboutToDelete(item.id) ? 'about-to-delete' : '']">
-                                <div>
-                                    <div data-component='sort-managment'>
-                                        <a href="!#" @click.prevent="changeSort($event, item, '-1')" class="btn" style="" title='Изменить позицию элемента'>
-                                           <i class="material-icons right" style="">arrow_drop_up</i>
-                                        </a>                            
-                                        <a href="!#" @click.prevent="changeSort($event, item, '1')" class="btn" style="" title='Изменить позицию элемента'>
-                                           <i class="material-icons right" style="">arrow_drop_down</i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div>
-                                     @{{ item['title'] }}
-                                </div>
-                                <div style="justify-self: flex-end;">
-                                    <a href="#!" @click.prevent='statExport($event, item)'><span class="material-icons" title='Скачать статистику'>download</span></a>
-                                </div>
-                                <div style="justify-self: flex-end;">
-                                    <form v-if="item['is_visible']">
-                                        <p>
-                                          <label>
-                                            <input class="filled-in" type="checkbox" checked v-model="item.is_visible" @change.prevent="updateVisible($event, item)"/>
-                                            <span></span>
-                                          </label>
-                                        </p>
-                                    </form>
-                                    <form v-else>
-                                        <p>
-                                          <label>
-                                            <input class="filled-in" type="checkbox"  v-model="item.is_visible" @change.prevent="updateVisible($event, item)"/>
-                                            <span></span>
-                                          </label>
-                                        </p>
-                                    </form>
-                                </div>
-                                <div style="justify-self: flex-end;">
-                                    <form>
-                                        <p>
-                                          <label>
-                                            <input class="filled-in" type="checkbox" v-model="form.removeItem.ids" v-bind:value="item.id"/>
-                                            <span></span>
-                                          </label>
-                                        </p>
-                                    </form>
-                                </div>
-                                <div name='manage' data-component="manage"> 
-                                    <a href="" @click.prevent='editItem($event, item)'><span class="material-icons" title='Редактировать'>border_color</span></a>
-                                    <a href="#remove-confirm" @click.prevent='removeItemConfirm($event, item)'><span class="material-icons" title='Удалить'>delete_outline</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
+                    
                 </div>
             </section>
             <section data-component='modal'>
@@ -2039,24 +2113,18 @@
     /**
  * Tabs
  */
-.tabs {
+.tabscont {
   display: flex;
   flex-wrap: wrap;
   height: auto;
 }
 
-.tabs label {
-  order: 1;
-  display: block;
-  padding: 1rem 2rem;
-  margin-right: 0.2rem;
-  cursor: pointer;
-  background: #90CAF9;
-  font-weight: bold;
-  transition: background ease 0.2s;
+.tabscont .label {
+    margin-right: 10px;
+  opacity: 0.8;
 }
 
-.tabs .tab {
+.tabscont .tabcont {
     height: auto;
   order: 99;
   flex-grow: 1;
@@ -2066,28 +2134,22 @@
   background: #fff;
 }
 
-.tabs input[type=radio] {
+.tabscont input[type=radio] {
   display: none;
 }
 
-.tabs input[type=radio]:checked + label {
-  background: #fff;
+.tabscont input[type=radio]:checked + .label {
+  opacity: 1;
 }
 
-.tabs input[type=radio]:checked + label + .tab {
+.tabscont input[type=radio]:checked + .label + .tabcont {
   display: block;
 }
 
 @media (max-width: 45em) {
-  .tabs .tab,
-.tabs label {
+  .tabscont .tabcont,
+.tabscont .label {
     order: initial;
-  }
-
-  .tabs label {
-    width: 100%;
-    margin-right: 0;
-    margin-top: 0.2rem;
   }
 }
 </style>
