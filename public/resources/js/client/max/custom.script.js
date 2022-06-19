@@ -520,7 +520,7 @@ var submitActionUpdateForm = function() {
      // подготовка разметки для ответа 
     document.querySelector(`[data-component="toast"]`).classList.remove("show");
     /* отправка fetch */
-    fetch(`/account/actions/${form.querySelector(`input[name='id']`).value}`, {
+    fetch(`/account/courses/${form.querySelector(`input[name='id']`).value}`, {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json, text-plain, */*",

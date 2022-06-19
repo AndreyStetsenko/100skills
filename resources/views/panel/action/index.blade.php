@@ -192,6 +192,13 @@
                         <div>
                             <a class="waves-effect waves-light btn-small" @click.prevent='removeSelectedItems($event)'><i class="material-icons left">remove</i>Удалить выбранные</a>
                         </div>
+                        <div>
+                            <a class="waves-effect waves-light btn-small" 
+                                @click.prevent='statExport($event)'>
+                                <i class="material-icons left">download</i>
+                                Export to CSV
+                            </a>
+                        </div>
                     </article>
                 </div>
                 <div row style="padding: 10px 25px;">
@@ -313,6 +320,7 @@
                     </article>
                 </div>
             </section>
+            @include('panel.action.modal-export')
             <section data-component='modal'>
                 <div id="create-task" class="modal modal-fixed-footer">
                     <div class="modal-content">
@@ -748,6 +756,7 @@
 <script src="https://cdn.tiny.cloud/1/<?=config("app.tiny_mce_key") ?>/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
 
 <script>
     var app = new Vue({
@@ -824,7 +833,18 @@
                     },
                     ids: [],
                 }, /* data удаляемого элемента */
+                statsExport: {
+                    inputs: {
+                        id: '',
+                        action: '',
+                        date_start: '',
+                        date_end: '',
+                        school_id: '',
+                        course_id: ''
+                    }
+                },
             },
+            users: [],
         },
         created: function(){
             /* инициализация tiny окна */
@@ -854,8 +874,38 @@
             this.setPages();
 
         },
-        mounted: function(){
-            M.Collapsible.init(document.querySelectorAll(`[data-component="city-managment"] .collapsible`), {});
+        mounted: function() {
+            var request_data = this.prepareInputExportObjectToRequest();
+
+            fetch("/statistic/get", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-Token": this.form.csrf
+                },
+                method: 'post',
+                body: JSON.stringify(request_data)
+            })
+            .then(resp => resp.json())
+            .then(json => (this.actions = json.data));
+
+            // axios.get('/statistic/get', {
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "Accept": "application/json",
+            //         "X-Requested-With": "XMLHttpRequest",
+            //         "X-CSRF-Token": this.form.csrf
+            //     },
+            //     body: request_data
+            // })
+            // .then(function(response){
+            //     console.log(response.data);
+            //     this.actions = response.data.data;
+            // })
+            // .catch(function(error){
+            //     console.log(error);
+            // });
         },
         updated: function () {
             // console.log("pages updated");
@@ -925,6 +975,12 @@
                 let to = (page * perPage);
                 return this.itemList.slice(from, to);
             },
+            // csvData() {
+            //     return this.actions.map(item => ({
+            //         ...item
+            //     }));
+            //     // console.log(this.actions);
+            // }
         },
         methods: {
             /*
@@ -1085,6 +1141,19 @@
                 };
                 return item_prepared;
             },
+
+            prepareInputExportObjectToRequest: function(){
+
+                var item_prepared = {
+                    id: this.form.statsExport.inputs.id,
+                    action: this.form.statsExport.inputs.action,
+                    date_start: this.form.statsExport.inputs.date_start,
+                    date_end: this.form.statsExport.inputs.date_end,
+                    school_id: this.form.statsExport.inputs.school_id,
+                    course_id: this.form.statsExport.inputs.course_id,
+                };
+                return item_prepared;
+            },
              /*
              *
              * @param item - элемент
@@ -1181,6 +1250,21 @@
                 tinyMCE.get('body_long').setContent("");
                 
                 this.initModal("create-task");
+            },
+
+            statExport: function(event)
+            {
+                
+                this.form.statsExport.inputs = {
+                    id: "",
+                    action: "",
+                    date_start: "",
+                    date_end: "",
+                    school_id: "",
+                    course_id: ""
+                };
+                
+                this.initModal("stat-export");
             },
             /*
              *
@@ -1323,6 +1407,7 @@
                     return;
                 });
             },
+            
             /*
              *
              * @param event - событие
@@ -2557,6 +2642,46 @@
                 });
                 return;
             },
+            csvExport() {
+                var vm = this;
+                var request_data = this.prepareInputExportObjectToRequest();
+
+                axios.post('/statistic/get', {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-Token": this.form.csrf
+                    },
+                    body: request_data
+                })
+                .then(function(response){
+                    console.log(response.data.data);
+
+                    arrData = response.data.data.map(item => ({
+                        ...item
+                    }));
+
+                    let csvContent = "data:text/csv;charset=utf-8,";
+                    csvContent += [
+                        Object.keys(arrData[0]).join(";"),
+                        ...arrData.map(item => Object.values(item).join(";"))
+                    ]
+                        .join("\n")
+                        .replace(/(^\[)|(\]$)/gm, "");
+
+                    const data = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", data);
+                    link.setAttribute("download", "export.csv");
+                    link.click();
+                })
+                .catch(function(error){
+                    console.log(error);
+
+                    vm.showToasts([`Ошибка на стороне сервера.`, `Повторите попытку позже и обратитесь к администратору сайта.`]);
+                });
+            }
         },
     })
 </script>

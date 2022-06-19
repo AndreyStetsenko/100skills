@@ -268,7 +268,9 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
 	Route::resource('/component/audio', AudioController::class);
 });
 
-Route::get('/statistic/get', [UsersExportController::class, 'export'])->name('statistic.get');
+Route::post('/statistic/get', [StatisticsController::class, 'export'])->name('statistic.get');
+Route::post('/statistic/store-action', [StatisticsController::class, 'storeAction'])->name('statistic.store-action');
+Route::delete('/statistic/allclear', [StatisticsController::class, 'allclear'])->name('statistic.allclear');
 
 
 

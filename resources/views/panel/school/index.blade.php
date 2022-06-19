@@ -17,7 +17,7 @@
                     </article>
                     <article class="module-managment">
                         <div>
-                            <a class="waves-effect waves-light btn-small" @click.prevent='createItem($event)'><i class="material-icons left">add</i>Добавить</a>
+                            <a href="" class="waves-effect waves-light btn-small" @click.prevent='createItem($event)'><i class="material-icons left">add</i>Добавить</a>
                         </div>
                         <div>
                             <a class="waves-effect waves-light btn-small" @click.prevent='removeSelectedItems($event)'><i class="material-icons left">remove</i>Удалить выбранные</a>
@@ -104,7 +104,7 @@
                                      @{{ item['title'] }}
                                 </div>
                                 <div style="justify-self: flex-end;">
-                                    <a href="" @click.prevent='exportStat($event, item)'><span class="material-icons" title='Скачать статистику'>download</span></a>
+                                    <a href="#!" @click.prevent='statExport($event, item)'><span class="material-icons" title='Скачать статистику'>download</span></a>
                                 </div>
                                 <div style="justify-self: flex-end;">
                                     <form v-if="item['is_visible']">
@@ -499,6 +499,7 @@
                     </div>
                 </div>
             </section>
+            @include('panel.school.modal-export')
         </main>
     </div>
 
@@ -506,6 +507,7 @@
 <script src="https://cdn.tiny.cloud/1/<?=config("app.tiny_mce_key") ?>/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
 
 <script>
     var app = new Vue({
@@ -568,6 +570,14 @@
                     },
                     ids: [],
                 }, /* data удаляемого элемента */
+                statsExport: {
+                    inputs: {
+                        id: '',
+                        action: '',
+                        date_start: '',
+                        date_end: ''
+                    }
+                },
             },
         },
         created: function(){
@@ -638,6 +648,102 @@
                 let to = (page * perPage);
                 return this.itemList.slice(from, to);
             },
+            exDay () {
+                const today = new Date();
+                var future = new Date();
+                future.setDate(future.getDate() - 1);
+
+                function formatDate(date, format) {
+                    const map = {
+                        mm: date.getMonth() + 1,
+                        dd: date.getDate(),
+                        yy: date.getFullYear().toString().slice(-2),
+                        gggg: date.getFullYear()
+                    }
+
+                    return format.replace(/mm|dd|yy|gggg/gi, matched => map[matched])
+                }
+
+                let date_start = formatDate(future, 'gggg-mm-dd');
+                let date_end = formatDate(today, 'gggg-mm-dd');
+
+                return {
+                    date_start,
+                    date_end
+                }
+            },
+            exWeek () {
+                const today = new Date();
+                var future = new Date();
+                future.setDate(future.getDate() - 7);
+
+                function formatDate(date, format) {
+                    const map = {
+                        mm: date.getMonth() + 1,
+                        dd: date.getDate(),
+                        yy: date.getFullYear().toString().slice(-2),
+                        gggg: date.getFullYear()
+                    }
+
+                    return format.replace(/mm|dd|yy|gggg/gi, matched => map[matched])
+                }
+
+                let date_start = formatDate(future, 'gggg-mm-dd');
+                let date_end = formatDate(today, 'gggg-mm-dd');
+
+                return {
+                    date_start,
+                    date_end
+                }
+            },
+            exMonth () {
+                const today = new Date();
+                var future = new Date();
+                future.setDate(future.getDate() - 30);
+
+                function formatDate(date, format) {
+                    const map = {
+                        mm: date.getMonth() + 1,
+                        dd: date.getDate(),
+                        yy: date.getFullYear().toString().slice(-2),
+                        gggg: date.getFullYear()
+                    }
+
+                    return format.replace(/mm|dd|yy|gggg/gi, matched => map[matched])
+                }
+
+                let date_start = formatDate(future, 'gggg-mm-dd');
+                let date_end = formatDate(today, 'gggg-mm-dd');
+
+                return {
+                    date_start,
+                    date_end
+                }
+            },
+            exThreeMonth () {
+                const today = new Date();
+                var future = new Date();
+                future.setDate(future.getDate() - 91);
+
+                function formatDate(date, format) {
+                    const map = {
+                        mm: date.getMonth() + 1,
+                        dd: date.getDate(),
+                        yy: date.getFullYear().toString().slice(-2),
+                        gggg: date.getFullYear()
+                    }
+
+                    return format.replace(/mm|dd|yy|gggg/gi, matched => map[matched])
+                }
+
+                let date_start = formatDate(future, 'gggg-mm-dd');
+                let date_end = formatDate(today, 'gggg-mm-dd');
+
+                return {
+                    date_start,
+                    date_end
+                }
+            }
         },
         methods: {
             /*
@@ -794,6 +900,19 @@
                 };
                 return item_prepared;
             },
+
+            prepareInputExportObjectToRequest: function(dates){
+
+                var item_prepared = {
+                    id: this.form.statsExport.inputs.id,
+                    action: this.form.statsExport.inputs.action,
+                    date_start: this.form.statsExport.inputs.date_start ? this.form.statsExport.inputs.date_start : dates.date_start,
+                    date_end: this.form.statsExport.inputs.date_end ? this.form.statsExport.inputs.date_end : dates.date_end,
+                    school_id: this.form.statsExport.inputs.item.id,
+                };
+
+                return item_prepared;
+            },
              /*
              *
              * @param item - элемент
@@ -877,6 +996,22 @@
                 tinyMCE.get('body_short').setContent("");
                 
                 this.initModal("create-task");
+            },
+
+            statExport: function(event, item)
+            {
+                
+                this.form.statsExport.inputs = {
+                    id: "",
+                    action: "",
+                    date_start: "",
+                    date_end: "",
+                    item: JSON.parse(JSON.stringify(item))
+                };
+
+                console.log(this.form.statsExport.inputs);
+                
+                this.initModal("stat-export");
             },
             /*
              *
@@ -1642,6 +1777,47 @@
                     }
 
                     return;
+                });
+            },
+
+            csvExport(dates) {
+                var vm = this;
+                var request_data = this.prepareInputExportObjectToRequest(dates);
+
+                axios.post('/statistic/get', {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-Token": this.form.csrf
+                    },
+                    body: request_data
+                })
+                .then(function(response) {
+                    console.log(response.data);
+
+                    arrData = response.data.data.map(item => ({
+                        ...item
+                    }));
+
+                    let csvContent = "data:text/csv;charset=utf-8,";
+                    csvContent += [
+                        Object.keys(arrData[0]).join(";"),
+                        ...arrData.map(item => Object.values(item).join(";"))
+                    ]
+                        .join("\n")
+                        .replace(/(^\[)|(\]$)/gm, "");
+
+                    const data = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", data);
+                    link.setAttribute("download", "export.csv");
+                    link.click();
+                })
+                .catch(function(error) {
+                    console.log(error);
+
+                    vm.showToasts([`Ошибка на стороне сервера.`, `Повторите попытку позже и обратитесь к администратору сайта.`]);
                 });
             }
         },

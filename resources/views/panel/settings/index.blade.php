@@ -22,6 +22,9 @@
                         <div>
                             <a class="waves-effect waves-light btn-small" @click.prevent='removeSelectedItems($event)'><i class="material-icons left">remove</i>Удалить выбранные</a>
                         </div>
+                        <div>
+                            <a class="waves-effect waves-light btn-small" @click.prevent='clearStatistics($event)'><i class="material-icons left">assessment</i>Очистить статистику</a>
+                        </div>
                     </article>
                 </div>
                 <?php if ( !1 ): ?>
@@ -876,6 +879,35 @@
 
                         // vm.removeItem(vm.form.removeItem.inputs.id);
                         // vm.closeModal("remove-item");
+                    }
+                });
+            },
+
+            clearStatistics: function(event)
+            {
+                var vm = this;
+
+                fetch(`/statistic/allclear`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-Token": this.form.csrf
+                    },
+                    method: 'DELETE'
+                })
+                .then(function(response) {
+                    if( response.status != 200 && response.status != 422){
+                        /* если ответ не 200 - что-то случилось, обработаем ошибку */
+                        /* если ответ не 422 - ответ от валидатора */
+                        vm.showToasts([`Ошибка на стороне сервера.`, `Повторите попытку позже и обратитесь к администратору сайта.`]);
+                    }
+                    return response.json();
+                })
+                .then(function(data) {
+                    if( data.status ) {
+
+                        vm.showToast(`Статистика сайта очищена.`);
                     }
                 });
             },

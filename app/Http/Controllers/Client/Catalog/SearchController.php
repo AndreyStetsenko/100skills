@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client\Catalog;
 use App\Http\Controllers\Client\Catalog\TemplateClass as CourseTemplate;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\StatisticsController;
 
 use App\Models\Course\Category as Category;
 use App\Models\Course\Item as Course;
@@ -194,6 +195,9 @@ class SearchController extends Controller
     {
         $item = Course::latest()->with(["gallery", "similar", "similar.gallery"])->where("slug", "=", $slug)->firstOrFail();
         $course = Course::where('slug', $slug)->first();
+
+        $statistic = new StatisticsController;
+        $statistic->store('course', $course->id);
 
         $response = array(
             "template" => array(
