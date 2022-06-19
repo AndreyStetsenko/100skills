@@ -107,18 +107,18 @@ class StatisticsController extends Controller
             ]
           )->get();
 
-        foreach ( $statistics as $item ) {
-            $array[] = [
-                'id'            => $item->id,
-                'action'        => $item->action,
-                'school_id'     => $item->school_id,
-                'course_id'     => $item->course_id,
-                'ip'            => $item->ip,
-                'user_id'       => $item->user_id,
-                'created_at'    => $item->created_at,
-                'updated_at'    => $item->updated_at,
-            ];
-        }
+        // foreach ( $statistics as $item ) {
+        //     $data[] = [
+        //         'id'            => $item->id,
+        //         'action'        => $item->action,
+        //         'school_id'     => $item->school_id,
+        //         'course_id'     => $item->course_id,
+        //         'ip'            => $item->ip,
+        //         'user_id'       => $item->user_id,
+        //         'created_at'    => $item->created_at,
+        //         'updated_at'    => $item->updated_at,
+        //     ];
+        // }
 
         $data[] = [
             'Opening school pages' => count($statistics->where('action', 'open_page')),
@@ -131,8 +131,7 @@ class StatisticsController extends Controller
 
         $response = [
             'status' => '200',
-            'data' => $data,
-            'array' => $array
+            'data' => $data
         ];
 
         return response()->json( $response );
