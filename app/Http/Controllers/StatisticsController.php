@@ -124,7 +124,9 @@ class StatisticsController extends Controller
             'Opening school pages' => count($statistics->where('action', 'open_page')),
             'Course openings' => count($statistics->where('action', 'open_page_course')),
             'Opening contacts' => count($statistics->where('action', 'open_contacts')),
-            'Links to the school website' => count($statistics->where('action', 'move_to_school_site'))
+            'Links to the school website' => count($statistics->where('action', 'move_to_school_site')),
+            'Date From' => $req['date_start'],
+            'Date To' => $req['date_end']
         ];
 
         $response = [

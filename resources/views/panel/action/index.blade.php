@@ -192,13 +192,6 @@
                         <div>
                             <a class="waves-effect waves-light btn-small" @click.prevent='removeSelectedItems($event)'><i class="material-icons left">remove</i>Удалить выбранные</a>
                         </div>
-                        <div>
-                            <a class="waves-effect waves-light btn-small" 
-                                @click.prevent='statExport($event)'>
-                                <i class="material-icons left">download</i>
-                                Export to CSV
-                            </a>
-                        </div>
                     </article>
                 </div>
                 <div row style="padding: 10px 25px;">
