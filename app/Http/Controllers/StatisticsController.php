@@ -96,8 +96,8 @@ class StatisticsController extends Controller
         $data = null;
         $req = $request->body;
 
-        $date_start = date('d-m-Y', strtotime($req['date_start'])) ." 00:00:00";
-        $date_end = date('d-m-Y', strtotime($req['date_end'])) ." 23:59:59";
+        $date_start = Carbon::createFromFormat('Y-m-d', $req['date_start'])->format('Y-m-d');
+        $date_end = Carbon::createFromFormat('Y-m-d', $req['date_end'])->format('Y-m-d');
 
         $statistics = Statistics::whereRaw(
             "(created_at >= ? AND created_at <= ? and school_id = " . $req['school_id'] . ")", 
@@ -144,7 +144,7 @@ class StatisticsController extends Controller
         $req = $request->body;
 
         $date_start = date('Y-m-d', strtotime("-1 day"));
-        $date_end = date('Y-m-d');
+        $date_end = Carbon::createFromFormat('Y-m-d', "2022-6-30")->format('Y-m-d');
 
         $statistics = Statistics::whereRaw(
             "(created_at >= ? AND created_at <= ? and school_id = 1)", 
