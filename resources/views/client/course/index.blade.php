@@ -21,7 +21,7 @@
                 <div class="row justify-content-between">
                     <div class="col-md-6">
                         <h1>
-                            {{ $course->school->title ?? 'Наименование не указано.' }}
+                            {{ $course->title ?? 'Наименование не указано.' }}
                         </h1>
                         <p>
                             {!! $course->body_short ?? 'Краткое описание не указано.' !!}
