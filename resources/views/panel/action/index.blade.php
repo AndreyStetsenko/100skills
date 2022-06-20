@@ -271,7 +271,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                     @{{ item['title'] }}
+                                     @{{ item['course']['title'] }}
                                 </div>
                                 <div>
                                     

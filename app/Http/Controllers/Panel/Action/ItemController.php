@@ -21,7 +21,7 @@ class ItemController extends Controller
     public function index()
     {
         $response = array();
-        $response['items'] = Item::latest()->with(["category", "gallery", "video"])->get();
+        $response['items'] = Item::latest()->with(["category", "gallery", "video", "course"])->get();
         $response['category'] = Category::latest()->where('parent_id', 0)->with(['childs'])->get();
         return view("panel/action/index", $response);
     }
