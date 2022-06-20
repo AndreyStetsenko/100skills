@@ -14,7 +14,7 @@
             <?php endif ?>
         </td>
         <td>
-            <h5><a href="/course/<?=$value['slug'] ?>"><?=$value['title'] ?></a></h5>
+            <h5><a href="/account/courses/<?=$value['slug'] ?>"><?=$value['title'] ?></a></h5>
         </td>
         <td class="table-price">
             <?php if ( !1 ): ?>
@@ -31,6 +31,9 @@
                     <span><s><?=$value['price'] ?>₽</s></span>
                 </div>
             <?php endif ?>
+        </td>
+        <td>
+            
         </td>
         <td>
             <label class="--switch">
