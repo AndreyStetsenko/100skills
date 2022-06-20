@@ -39,13 +39,13 @@
                         (($item->action->date_end ?? null) > now())
                         && (($item->action->date_start ?? null) < now())
                         )
-                        <small><s>{{ $item->price }} $</s></small>
-                        <span>{{ $item->action->new_price ?? null }} $</span>
+                        <small><s>{{ $item->price }} ₽</s></small>
+                        <span>{{ $item->action->new_price ?? null }} ₽</span>
                     @else
-                        <span>{{ $item->price }} $</span>
+                        <span>{{ $item->price }} ₽</span>
                     @endif
                 @else
-                    <span>{{ $item->price }} $</span>
+                    <span>{{ $item->price }} ₽</span>
                 @endif
           </div>
       </div>

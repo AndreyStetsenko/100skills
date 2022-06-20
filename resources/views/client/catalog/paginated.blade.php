@@ -50,13 +50,13 @@
                                 (($value["action"]->date_end ?? null) > now())
                                 && (($value["action"]->date_start ?? null) < now())
                                 )
-                                <small><s>{{ $value["price"] }} $</s></small>
-                                <span>{{ $value["action"]->new_price ?? null }} $</span>
+                                <small><s>{{ $value["price"] }} ₽</s></small>
+                                <span>{{ $value["action"]->new_price ?? null }} ₽</span>
                             @else
-                                <span>{{ $value["action"]->price }} $</span>
+                                <span>{{ $value["action"]->price }} ₽</span>
                             @endif
                         @else
-                            <span>{{ $value["price"] }} $</span>
+                            <span>{{ $value["price"] }} ₽</span>
                         @endif
                     </div>
                 </div>
