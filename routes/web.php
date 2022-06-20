@@ -15,6 +15,9 @@ use App\Http\Controllers\Client\Account\CourseController as ClientAccountCourseC
 use App\Http\Controllers\Client\Account\ActionController as ClientAccountActionController;
 use App\Http\Controllers\Client\Account\TarifController as ClientAccountTarifController;
 
+# Actions
+use App\Http\Controllers\Client\Action\ActionController;
+
 # управления формами
 use App\Http\Controllers\Client\Forms\ClientHelpFormController;
 
@@ -73,6 +76,9 @@ use App\Models\Course\Item as Course;
 use App\Models\Blog\Item as Blog;
 use App\Models\Contact\Item as Contact;
 use App\Models\Menu;
+
+# Page Actions
+Route::get('/action', [ActionController::class, 'index'])->name('page.action');
 
 # маршруты модуля контент страница: в текущий метод попадают страницы, которые соответствуют условиям.
 Route::get('/{url}', [ClientPageController::class, 'view'])->where('url', '^(?!(admin|component|logout|login|register|verify-email|forgot-password|reset-password|confirm-password|action/contact|catalog|course|account|school-page|school|article|blog|contact|statistic|)(\/|$))[A-Za-z0-9+-_\/]+');

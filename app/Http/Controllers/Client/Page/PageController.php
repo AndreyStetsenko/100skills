@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Page;
 use App\Models\Menu;
 
+use App\Http\Controllers\Client\Action\ActionController;
+
 class PageController extends Controller
 {
     /**
