@@ -139,7 +139,7 @@ class CourseController extends Controller
                 if( !isset($value['id']) ){
                     # в базе нет (id в запросе отсутствует) - добавляем фото
                     $gallery_item = new Gallery($value);
-                    $gallery_item["src"] = "/public" . $value["path"];
+                    $gallery_item["src"] = $value["path"];
                     $gallery_item->save();
                     $item->gallery()->save($gallery_item);
                     # $item->gallery()->attach($gallery_item);
@@ -276,23 +276,21 @@ class CourseController extends Controller
 
         # в лекции есть галерея:
 
-        if ( $request->input('gallery') != null && array_filter($request->input('gallery')) != null ) {
+        if ( $request->input('gallery') != null ) {
             $gallery = $request->input("gallery");
             # добавляем к $item ссылку на gallery && сохраняем relation gallery
             if ( gettype($request->input("gallery")) === "string" ) {
                 $gallery = json_decode($request->input("gallery"), 1);
             }
-            foreach ( array($gallery) as $key => $value ) {
-                // dd(__METHOD__, $gallery);
+            foreach ( $gallery as $key => $value ) {
                 if( !isset($value['id']) ){
                     # в базе нет (id в запросе отсутствует) - добавляем фото
                     $gallery_item = new Gallery($value);
-                    $gallery_item->src = "/public" . $value["path"];
-
-                    // dd(__METHOD__, $gallery_item);
-
-                    # сохраняем
+                    $gallery_item["src"] = $value["path"];
+                    $gallery_item->save();
                     $item->gallery()->save($gallery_item);
+                    # $item->gallery()->attach($gallery_item);
+                    
                 }else{
                     # уже в базе
                 }
@@ -301,7 +299,35 @@ class CourseController extends Controller
             # обновим привязку
             $item->is_active_gallery = 1;
             $item->save();
+
         }
+
+        // if ( $request->input('gallery') != null && array_filter($request->input('gallery')) != null ) {
+        //     $gallery = $request->input("gallery");
+        //     # добавляем к $item ссылку на gallery && сохраняем relation gallery
+        //     if ( gettype($request->input("gallery")) === "string" ) {
+        //         $gallery = json_decode($request->input("gallery"), 1);
+        //     }
+        //     foreach ( array($gallery) as $key => $value ) {
+        //         // dd(__METHOD__, $gallery);
+        //         if( !isset($value['id']) ){
+        //             # в базе нет (id в запросе отсутствует) - добавляем фото
+        //             $gallery_item = new Gallery($value);
+        //             $gallery_item->src = $value["path"];
+
+        //             // dd(__METHOD__, $gallery_item);
+
+        //             # сохраняем
+        //             $item->gallery()->save($gallery_item);
+        //         }else{
+        //             # уже в базе
+        //         }
+        //     }
+
+        //     # обновим привязку
+        //     $item->is_active_gallery = 1;
+        //     $item->save();
+        // }
         # найдены похожие курсы:
         if ( $request->input('course') != null ) {
             $similar = $request->input("course");

@@ -249,7 +249,7 @@ class TarifController extends Controller
                 if( !isset($value['id']) ){
                     # в базе нет (id в запросе отсутствует) - добавляем фото
                     $gallery_item = new Gallery($value);
-                    $gallery_item->src = "/public" . $value["path"];
+                    $gallery_item->src = $value["path"];
 
                     // dd(__METHOD__, $gallery_item);
 

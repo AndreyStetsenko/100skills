@@ -63,9 +63,15 @@
                         @foreach ( $courses as $key => $item)
                             <tr>
                                 <td><input value="{{ $item->id }}" data-component="deleting" class="uk-checkbox" type="checkbox"></td>
-                                <td>
-                                    <img class="uk-preserve-width" src="{{ $item->gallery->last()->src ?? '/public/files/no-image.png' }}" width="85" alt="">
+                                @if ($item->gallery->last()->src ?? null)
+                                <td class="pagi-image">
+                                    <img class="uk-preserve-width" data-src="{{ $item->gallery->last()->src}}" width="85" alt="">
                                 </td>
+                                @else
+                                <td class="pagi-image">
+                                    <img class="uk-preserve-width" src="/public/files/no-image.png" width="85" alt="">
+                                </td>
+                                @endif
                                 <td>
                                     <h5><a href="/account/courses/{{ $item->slug }}">{{ $item->title }}</a></h5>
                                 </td>

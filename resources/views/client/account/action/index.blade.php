@@ -28,17 +28,17 @@
 
             <ul data-component="toast"></ul>
             <div class="uk-overflow-auto section-last mt-5">
-                <a onclick="event.preventDefault(); changeMassAccountActionDelete(event);" 
+                <a onclick="event.preventDefault(); changeMassAccountCourseDelete(event);" 
                    data-route="/account/actions/0"
                    style="cursor: pointer;" class="btn btn-red btn-light">
                    Удалить <span class="m-none">выбранные</span>
                 </a>
-                <a onclick="event.preventDefault(); changeMassAccountActionVisible(event);"
+                <a onclick="event.preventDefault(); changeMassAccountCourseVisible(event);"
                    data-route="/account/actions/visible" 
                    style="cursor: pointer;" class="btn btn-light" style="padding: 11px 35px;">
                    Отключить <span class="m-none">выбранные</span>
                 </a>
-                <a onclick="event.preventDefault(); changeMassAccountActionVisible(event);"
+                <a onclick="event.preventDefault(); changeMassAccountCourseVisible(event);"
                    data-route="/account/actions/visible/true"
                    style="cursor: pointer;" class="btn btn-light" style="padding: 11px 35px;">Включить <span class="m-none">выбранные</span>
                 </a>

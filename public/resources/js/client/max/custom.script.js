@@ -416,7 +416,9 @@ var submitCourseUpdateForm = function() {
 
     console.log(request)
     /* не должен быть массив т.к в update CourseController будет ошибка */
-    request["gallery"] = JSON.parse(form.querySelector(`[name="gallery"]`).value);     
+    if (form.querySelector(`[name="gallery"]`).value !== '') {
+        request["gallery"] = JSON.parse(form.querySelector(`[name="gallery"]`).value ?? null);     
+    }
     
     /*собираем курсы*/
     course_list = [];

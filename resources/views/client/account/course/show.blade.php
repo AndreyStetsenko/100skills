@@ -35,6 +35,7 @@
                     <form action="/account/courses/<?=$form['id'] ?>" 
                           data-component="account-course-form"
                           onsubmit="event.preventDefault(); submitCourseUpdateForm();"> 
+                          @csrf
                         <input type="hidden" name="id" value="<?=$form['id'] ?>" />
                         <div class="row">
                             <div class="col-md-7 row">
@@ -196,7 +197,7 @@
                             <div class="col-md-4 offset-md-1">
                                 <div id="image-preview" style="height: 350px; width: 350px;"></div>
                                 <div class="mt-4" uk-form-custom>
-                                    <input type="hidden" name="gallery" value='<?=json_encode($form['gallery']) ?>' data-component="gallery">
+                                    <input type="hidden" name="gallery" value='' data-component="gallery">
                                     <input type="hidden" name="gallery_src" value='<?=$form['gallery_src'] ?>'>
 
                                     <input id="image-upload" onchange="event.preventDefault(); addGallery(event);" type="file">

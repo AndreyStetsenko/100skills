@@ -165,7 +165,9 @@ Route::middleware(['auth', 'verified', 'school', 'role:account'])->group(functio
 	Route::get("/account", function () {
 		return Redirect::to("/account/profile", 301); 
 	});
-	Route::get("/account/actions", [ClientAccountActionController::class, "index"])->name('actions.index');
+	
+	Route::resource("/account/actions", ClientAccountActionController::class);
+	// Route::get("/account/actions", [ClientAccountActionController::class, "index"])->name('actions.index');
 	Route::get("/account/actions/create", [ClientAccountActionController::class, "create"])->name('actions.create');
 	Route::post("/account/actions/create", [ClientAccountActionController::class, "store"])->name('actions.store');
 	Route::post("/account/actions/update/{id?}", [ClientAccountActionController::class, "update"])->name('actions.update');
