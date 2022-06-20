@@ -14,8 +14,6 @@ class ActionController extends Controller
     {
         $courses = Course::where('is_action', 1)->get();
 
-        return view('client/action/index', [
-            'courses' => $courses
-        ]);
+        return redirect('catalog?is_action=1');
     }
 }
