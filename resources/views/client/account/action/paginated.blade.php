@@ -27,8 +27,8 @@
                 <input type="checkbox" 
                            name="is_visible"
                            data-route="/account/actions/visible"
-                           onchange="event.preventDefault(); changeAccountCourseVisible(event, `{{ $item->id }}`)">    
-                <?php endif ?>    
+                           onchange="event.preventDefault(); changeAccountCourseVisible(event, `{{ $item->id }}`)">
+                @endif
                 <span class="--slider">
                     <i class="fas fa-check"></i>
                     <i class="fas fa-times"></i>
