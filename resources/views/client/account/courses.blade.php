@@ -92,10 +92,12 @@
                                             <input type="checkbox"
                                                    checked="checked" 
                                                    name="is_visible"
+                                                   data-route="/account/courses/visible"
                                                    onchange="event.preventDefault(); changeAccountCourseVisible(event, `{{ $item->id }}`)">                                                
                                         @else
                                             <input type="checkbox" 
                                                    name="is_visible"
+                                                   data-route="/account/courses/visible"
                                                    onchange="event.preventDefault(); changeAccountCourseVisible(event, `{{ $item->id }}`)">    
                                         @endif
                                         <span class="--slider">
