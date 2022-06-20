@@ -6,9 +6,11 @@
                     @if ( $value["gallery"]->first() != null )
                         <div class="p-relative pagi-image">
                             <img data-src="{{ $value["gallery"]->first()->src ?? null }}" width="100%" alt="">
-                            @if ( $value["action"]->first()->is_visible??null == 1 )
-                                @if ( ($value["action"]->first()->date_end ?? null) > now() )
-                                <span class="label-action-end">Акция до {{ date('d.m', strtotime($value["action"]->first()->date_end)) }}</span>
+                            @if ( $value["action"]->first()->is_visible ?? null )
+                                @if ( $value["action"]->first()->is_visible == 1 )
+                                    @if ( ($value["action"]->first()->date_end ?? null) > now() )
+                                    <span class="label-action-end">Акция до {{ date('d.m', strtotime($value["action"]->first()->date_end)) }}</span>
+                                    @endif
                                 @endif
                             @endif
                         </div>
