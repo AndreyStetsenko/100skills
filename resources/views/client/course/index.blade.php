@@ -57,10 +57,10 @@
                             @endif
 
                             <h5 class="mt-4 mb-2">
-                                {{ $course->school->title ?? 'Наименование не указано.' }}
+                                {{ $course->title ?? 'Наименование не указано.' }}
                             </h5>
                             <span>
-                                {{ $course->author ?? 'Автор не указан.' }}
+                                {{ $course->school->title ?? 'Автор не указан.' }}
                             </span>
                             <div class="uk-clearfix mt-3">
                                 <div class="uk-float-left">
