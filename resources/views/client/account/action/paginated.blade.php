@@ -13,7 +13,7 @@
             {{ date('d.m.Y', strtotime($item->date_end)) }}
         </td>
         <td>
-            {{ $item->new_price }}
+            {{ $item->new_price }} ₽
         </td>
         <td>
             <label class="--switch">
