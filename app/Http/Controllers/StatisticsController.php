@@ -136,4 +136,52 @@ class StatisticsController extends Controller
 
         return response()->json( $response );
     }
+
+    public function get(Request $request)
+    {
+        $data = null;
+        $get = null;
+        $req = $request->body;
+
+        $date_start = date('Y-m-d', strtotime("-1 day"));
+        $date_end = date('Y-m-d');
+
+        $statistics = Statistics::whereRaw(
+            "(created_at >= ? AND created_at <= ? and school_id = 1)", 
+            [
+                $date_start, 
+                $date_end
+            ]
+          )->get();
+
+        foreach ( $statistics as $item ) {
+            $get[] = [
+                'id'            => $item->id,
+                'action'        => $item->action,
+                'school_id'     => $item->school_id,
+                'course_id'     => $item->course_id,
+                'ip'            => $item->ip,
+                'user_id'       => $item->user_id,
+                'created_at'    => $item->created_at,
+                'updated_at'    => $item->updated_at,
+            ];
+        }
+
+        $data[] = [
+            'Opening school pages' => count($statistics->where('action', 'open_page')),
+            'Course openings' => count($statistics->where('action', 'open_page_course')),
+            'Opening contacts' => count($statistics->where('action', 'open_contacts')),
+            'Links to the school website' => count($statistics->where('action', 'move_to_school_site')),
+            'Date From' => $date_start,
+            'Date To' => $date_end
+        ];
+
+        $response = [
+            'status' => '200',
+            'data' => $data,
+            'get' => $get
+        ];
+
+        return response()->json( $response );
+    }
 }

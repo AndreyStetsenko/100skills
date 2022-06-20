@@ -269,6 +269,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
 });
 
 Route::post('/statistic/get', [StatisticsController::class, 'export'])->name('statistic.get');
+Route::get('/statistic/get-exp', [StatisticsController::class, 'get'])->name('statistic.get-exp');
 Route::post('/statistic/store-action', [StatisticsController::class, 'storeAction'])->name('statistic.store-action');
 Route::delete('/statistic/allclear', [StatisticsController::class, 'allclear'])->name('statistic.allclear');
 
