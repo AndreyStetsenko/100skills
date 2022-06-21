@@ -60,8 +60,7 @@
                                         <input class="uk-checkbox" 
                                                type="checkbox"
                                                name="is_certificate"
-<?=(isset($form["is_certificate"]) && ($form["is_certificate"] == 1) ? "checked" : "") ?>
-                                               value="1">
+                                                <?=(isset($form["is_certificate"]) && ($form["is_certificate"] == 1) ? "checked" : "") ?>>
                                         &nbsp;
                                         Сертификат
                                     </label>
@@ -72,8 +71,7 @@
                                         <input class="uk-checkbox" 
                                                type="checkbox"
                                                name="is_jobable"
-<?=(isset($form["is_jobable"]) && ($form["is_jobable"] == 1) ? "checked" : "") ?>
-
+                                               <?= (isset($form["is_jobable"]) && ($form["is_jobable"] == 1) ? "checked" : "") ?>
                                                value="1">
                                         &nbsp;
                                         Трудоустройство
@@ -85,7 +83,7 @@
                                         <input class="uk-checkbox" 
                                                type="checkbox"
                                                name="is_online"
-<?=(isset($form["is_online"]) && ($form["is_online"] == 1) ? "checked" : "") ?>
+                                                <?= (isset($form["is_online"]) && ($form["is_online"] == 1) ? "checked" : "") ?>
                                                value="1">
                                         &nbsp;
                                         Онлайн
@@ -99,7 +97,7 @@
                                                type="radio"
                                                name="is_proffession"
                                                selected="selected"
-<?=(isset($form["is_proffession"]) && ($form["is_proffession"] == 1) ? "checked" : "") ?>
+                                            <?=(isset($form["is_proffession"]) && ($form["is_proffession"] == 1) ? "checked" : "") ?>
                                                value="1">
                                         &nbsp;
                                         Профессия
@@ -112,7 +110,7 @@
                                         <input class="uk-radio" 
                                                type="radio"
                                                name="is_proffession"
-<?=(isset($form["is_proffession"]) && ($form["is_proffession"] == 1) ? "" : "checked") ?>
+                                                <?=(isset($form["is_proffession"]) && ($form["is_proffession"] == 1) ? "" : "checked") ?>
                                                value="0">
                                         &nbsp;
                                         Курс
