@@ -3,7 +3,6 @@
 <head>
     <x-client.head.head-page-component />
 <script>
-
     var renderNearmeCourse = function(template = "") {
         console.log("render done");
         document.querySelector(`[data-row="catalog"]`).insertAdjacentHTML("afterbegin", template);
@@ -16,6 +15,7 @@
     }
     document.addEventListener("DOMContentLoaded", function () {
         navigator.geolocation.getCurrentPosition(position => {
+            console.log(1);
             var latitude = position.coords.longitude;
             var longitude = position.coords.latitude;
             console.log(position.coords)
@@ -103,7 +103,28 @@
                             <button class="filter-btn uk-text-left" style="width: 100%;" type="button">
                                 <span class="mobile-all-courses">Все курсы</span>
                             </button>
-                            @include('client.catalog.nav-filter')
+                            <div uk-dropdown="mode: click; boundary: .boundary">
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li class="<?=(request()->getRequestUri() == '/catalog') ? 'uk-active' : '' ?>"> 
+                                        <a href="/catalog">Все курсы</a>
+                                    </li>
+                                    <li class="<?=(request()->getRequestUri() == '/catalog?is_recomended=1') ? 'uk-active' : '' ?>">
+                                        <a href="/catalog?is_recomended=1">Мы рекомендуем</a>
+                                        
+                                    </li>
+                                    <li class="<?=(request()->getRequestUri() == '/catalog?is_popular=1') ? 'uk-active' : '' ?>">
+                                        <a href="/catalog?is_popular=1">Популярные</a>
+                                        
+                                    </li>
+                                    <li class="<?=(request()->getRequestUri() == '/catalog?is_action=1') ? 'uk-active' : '' ?>">
+                                        <a href="/catalog?is_action=1">Акции</a>
+                                        
+                                    </li>
+                                    <li class="<?=(request()->getRequestUri() == '/catalog/nearme') ? 'uk-active' : '' ?>">
+                                        <a href="/catalog/nearme">Курсы рядом</a>
+                                    </li>                                       
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

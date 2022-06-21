@@ -111,6 +111,7 @@ class ItemController extends Controller
         $whereCourse[] = $items->pluck("id");
         $course = null;
         if ( count($items) != 0) {
+            $course = Course::where('gallery');
             $course = Course::whereHas("school", function($query) use ($whereCourse){
                 return $query->whereIn("id", $whereCourse);
             })->get();

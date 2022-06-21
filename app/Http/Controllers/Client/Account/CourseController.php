@@ -111,9 +111,9 @@ class CourseController extends Controller
         $item = new Course($validatedData);        
         
         # работа с чекбоксами
-        $item["is_jobable"] = $validatedData["is_jobable"] === true ? 1 : null;
-        $item["is_certificate"] = $validatedData["is_certificate"] === true ? 1 : null;
-        $item["is_online"] = $validatedData["is_online"] === true ? 1 : null;
+        $item["is_jobable"] = isset($validatedData["is_jobable"]) === true ? 1 : null;
+        $item["is_certificate"] = isset($validatedData["is_certificate"]) === true ? 1 : null;
+        $item["is_online"] = isset($validatedData["is_online"]) === true ? 1 : null;
         
         # radio профессия/онлайн
         $item["is_proffession"] = (isset($validatedData["is_proffession"]) && $validatedData["is_proffession"] == 1) ? 1 : null;
@@ -264,9 +264,9 @@ class CourseController extends Controller
         $validatedData["sort"] = Course::count() + 1;
 
         # работа с чекбоксами
-        $item["is_jobable"] = $validatedData["is_jobable"] === true ? 1 : null;
-        $item["is_certificate"] = $validatedData["is_certificate"] === true ? 1 : null;
-        $item["is_online"] = $validatedData["is_online"] === true ? 1 : null;
+        $item["is_jobable"] = isset($validatedData["is_jobable"]) === true ? 1 : null;
+        $item["is_certificate"] = isset($validatedData["is_certificate"]) === true ? 1 : null;
+        $item["is_online"] = isset($validatedData["is_online"]) === true ? 1 : null;
         
         # radio профессия/онлайн
         $item["is_proffession"] = (isset($validatedData["is_proffession"]) && $validatedData["is_proffession"] == 1) ? 1 : null;

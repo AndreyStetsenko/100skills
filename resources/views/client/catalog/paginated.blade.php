@@ -5,7 +5,7 @@
                 <div>
                     @if ( $value["gallery"]->first() != null )
                         <div class="p-relative pagi-image">
-                            <img data-src="{{ $value["gallery"]->first()->src ?? null }}" width="100%" alt="">
+                            <img src="{{ $value["gallery"]->first()->src ?? null }}" width="100%" alt="">
                             @if ( $value["action"]->is_visible ?? null )
                                 @if ( $value["action"]->is_visible == 1)
                                     @if ( ($value["action"]->date_end ?? null) > now() )
