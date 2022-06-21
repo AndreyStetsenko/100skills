@@ -28,23 +28,23 @@ class ActionController extends Controller
     {   
         # необходимые данные
         # $items = Item::where("title", "like", "%{$request->input('query')}%")->get(); 
-        // $response = array(
-        //     "items" => (!is_null($this->items()) ? $this->items()->action : null),
-        //     "school" => $this->items(),
-        //     "template" => array(
-        //         "paginated" => "",
-        //     ),
-        // );
-        // // dd(__METHOD__, $response);
-        // $response["template"]["paginated"] = view("/client/account/action/paginated", $response)->render();
+        $response = array(
+            "items" => (!is_null($this->items()) ? $this->items()->action : null),
+            "school" => $this->items(),
+            "template" => array(
+                "paginated" => "",
+            ),
+        );
+        // dd(__METHOD__, $response);
+        $response["template"]["paginated"] = view("/client/account/action/paginated", $response)->render();
 
-        // return view("/client/account/action/index", $response);
+        return view("/client/account/action/index", $response);
 
-        $actions = School::where("user_id", Auth::id())->first()->action;
+        // $actions = School::where("user_id", Auth::id())->first()->action;
 
-        return view("/client/account/action/index", [
-            "actions" => $actions,
-        ]);
+        // return view("/client/account/action/index", [
+        //     "actions" => $actions,
+        // ]);
     }
 
     /**
@@ -174,6 +174,38 @@ class ActionController extends Controller
                 continue;
             }
             $item->is_visible = ($request->input('is_visible') === true) ? 1 : null;
+
+            # update
+            $log[] = $item->save();
+        }
+        
+        # после обновления
+        $response = array(
+            'result' => array(
+                'status' => (!in_array(false, $log)),
+            ),
+            "template" => array(
+                "paginated" => "",
+            ),
+            "items" => $this->items()->action,
+            "school" => $this->items(),
+            'success' => array(
+                "Информация сохранена."
+            ),
+        );
+        $response["template"]["paginated"] = view("/client/account/action/paginated", $response)->render();
+        return $response;
+    }
+
+    public function visibleTrue(Request $request) {
+        $log = array();
+        foreach ( $request->input('id') as $key => $value) {
+            # поиск обновляемой записи
+            $item = Item::find($value);
+            if ( is_null($item) ) {
+                continue;
+            }
+            $item->is_visible = ($request->input('is_visible') === true) ? null : 1;
 
             # update
             $log[] = $item->save();

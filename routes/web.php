@@ -172,6 +172,7 @@ Route::middleware(['auth', 'verified', 'school', 'role:account'])->group(functio
 	Route::post("/account/actions/create", [ClientAccountActionController::class, "store"])->name('actions.store');
 	Route::post("/account/actions/update/{id?}", [ClientAccountActionController::class, "update"])->name('actions.update');
 	Route::post("/account/actions/visible", [ClientAccountActionController::class, "visible"]);
+	Route::post("/account/actions/visible/true", [ClientAccountActionController::class, "visibleTrue"]);
 	Route::get("/account/actions/{id?}", [ClientAccountActionController::class, "show"])->name('actions.view');
 	Route::get("/account/actions/get-course/{id?}", [ClientAccountActionController::class, "getCourse"])->name('actions.get-course');
 
