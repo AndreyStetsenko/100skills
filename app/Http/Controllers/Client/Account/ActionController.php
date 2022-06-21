@@ -145,43 +145,8 @@ class ActionController extends Controller
     {
         $item = Item::where("id", $id)->firstOrFail();
         
-        $item->title = $request->input("title");
-        $item->course_id = $request->input("course_id");
         $item->new_price = $request->input("new_price");
-        $item->date_start = $request->input("date_start");
-        $item->date_end = $request->input("date_end");
-        $item->body_short = $request->input("body_short");
-        $item->body_long = $request->input("body_long");
-        $item->body_long = $request->input("body_long");
-        $item->update();
-
-        # в лекции есть галерея:
-        if ( $request->input('gallery') != null ) {
-            $gallery = $request->input("gallery");
-            # добавляем к $item ссылку на gallery && сохраняем relation gallery
-            if ( gettype($request->input("gallery")) === "string" ) {
-                $gallery = json_decode($request->input("gallery"), 1);
-            }
-            foreach ( $gallery as $key => $value ) {
-                if( !isset($value['id']) ){
-                    # в базе нет (id в запросе отсутствует) - добавляем фото
-                    $gallery_item = new Gallery($value);
-                    
-                    $gallery_item["src"] = ($gallery_item["src"] == null) ? ($value["path"]) : $gallery_item["src"]; 
-
-                    # сохраняем
-                    $item->gallery()->save($gallery_item);
-                }else{
-                    # уже в базе
-                }
-            }
-
-            # обновим привязку
-            $item->is_active_gallery = 1;
-            $item->save();
-        }
-
-        
+        $item->update();        
 
         # после обновления
         // $response = array(

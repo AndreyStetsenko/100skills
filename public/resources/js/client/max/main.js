@@ -95,6 +95,22 @@ jQuery(document).ready(function($){
 	});
 
 	$(function() {
+		var checkLength = $(`[data-component="deleting"]`).length;
+		
+		$('[data-component="deleting"]').on('change', (e) => {
+			var checkAll = $(`[data-component="deleting-all"]`);
+	
+			if ( $(`[data-component="deleting"]:checked`).length === checkLength) {
+				checkAll.prop('checked', $(e.currentTarget).prop('checked'));
+			}
+
+			if ( $(`[data-component="deleting"]:checked`).length !== checkLength) {
+				checkAll.prop('checked', false);
+			}
+		});
+	});
+
+	$(function() {
 		let imgUrl = document.querySelectorAll('.school-img img');
 
 		imgUrl.forEach(el => {

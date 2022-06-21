@@ -41,13 +41,13 @@
                         method="post">
                         @csrf
 
-                        <input type="hidden" value="{{ $action->title }}" name="title">
+                        <input type="hidden" value="{{ $action->title ?? null }}" name="title">
 
                         <div class="row">
                             <div class="col-md-7 row">
                                 <div class="col-md-6 mb-4">
                                     <label>Выберите курс</label>
-                                    <select name="course_id" id="course_id" class="uk-input course-change-id" disabled>
+                                    <select id="course_id" class="uk-input course-change-id" disabled>
                                         <option value="">Выберите курс</option>
                                         @foreach($courses as $course)
                                         <option value="{{ $course->id }}">{{ $course->title }}</option>
