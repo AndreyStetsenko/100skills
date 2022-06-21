@@ -4,6 +4,7 @@
     </tr> 
 @endif
 @foreach ( $actions as $key => $item)
+    @if ( $item->course )
     <tr>
         <td><input value="{{ $item->id }}" data-component="deleting" class="uk-checkbox" type="checkbox"></td>
         <td>
@@ -45,5 +46,6 @@
                <div>Редактировать</div>
             </a>
         </td>
-    </tr>  
+    </tr>
+    @endif  
 @endforeach
