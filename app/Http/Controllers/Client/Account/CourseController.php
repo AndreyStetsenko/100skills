@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Panel\Course\ItemRequest as CourseRequest;
 use App\Models\Course\Item as Course;
 use App\Models\Course\Category as Category;
+use App\Models\Action\Item as Action;
 use App\Models\School\Item as School;
 use App\Models\Gallery\Gallery;
 use Illuminate\Support\Facades\Auth;
@@ -460,7 +461,11 @@ class CourseController extends Controller
         # массовое удаление
         $result = array();
         $course = Course::whereIn('id', $request->input('id') )->get();
+        $action = Action::whereIn('course_id', $request->input('id'))->get();
         foreach ( $course as $key => $value ) {
+            $result[] = $value->delete();
+        }
+        foreach ( $action as $key => $value ) {
             $result[] = $value->delete();
         }
         $response = array(

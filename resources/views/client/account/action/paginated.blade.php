@@ -4,7 +4,6 @@
     </tr> 
 @endif
 @foreach ( (isset($items) ? $items : array()) as $key => $value)
-    @if ( $value['course'] )
     <tr>
         <td><input value="{{ $value['id'] }}" data-component="deleting" class="uk-checkbox" type="checkbox"></td>
         <td>
@@ -47,5 +46,4 @@
             </a>
         </td>
     </tr>
-    @endif  
 @endforeach

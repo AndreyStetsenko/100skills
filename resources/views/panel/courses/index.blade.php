@@ -203,7 +203,7 @@
                                v-bind:class="[pagination.page == 1 ? 'disabled-pointer-events' : '']" ><i class="material-icons">chevron_left</i></a>
                         </li>                       
                         <li v-for="number in pagination.maxPage" v-bind:class="[pagination.page == number ? 'active' : '']">
-                            <a href="#!">@{{ number }}</a>
+                            <a href="#!" @click.prevent="pagination.page = number">@{{ number }}</a>
                         </li>
                         <li v-bind:class="[pagination.page == pagination.maxPage ? 'disabled' : 'waves-effect']">
                             <a href="#!" 
