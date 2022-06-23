@@ -29,7 +29,7 @@
                     
 
                     <div class="school-img-box" style="overflow: hidden; width: 49px; height: 49px;">
-                        <img data-src="{{ $item->gallery->last()->src ?? '/resources/img/no-photo.png' }}"
+                        <img src="{{ $item->gallery->last()->src ?? '/resources/img/no-photo.png' }}"
                                  style="width: 100%; height: 100%; object-fit: cover;"
                                  class="school-img" />
                     </div>

@@ -65,7 +65,7 @@
                                 <td><input value="{{ $item->id }}" data-component="deleting" class="uk-checkbox" type="checkbox"></td>
                                 @if ($item->gallery->last()->src ?? null)
                                 <td class="pagi-image">
-                                    <img class="uk-preserve-width" data-src="{{ $item->gallery->last()->src}}" width="85" alt="">
+                                    <img class="uk-preserve-width" src="{{ $item->gallery->last()->src}}" width="85" alt="">
                                 </td>
                                 @else
                                 <td class="pagi-image">

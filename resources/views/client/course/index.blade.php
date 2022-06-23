@@ -38,7 +38,7 @@
                         <div class="uk-panel p-3 border white-bg card-stisky">
                             @if ( $course->gallery->first() != null )
                                 <div class="uk-card-photo">
-                                    <img data-src="<?=$course->gallery->first()->src ?>" width="100%" alt="">
+                                    <img src="<?=$course->gallery->first()->src ?>" width="100%" alt="">
                                     @if ( $course->action->is_visible??null == 1 )
                                         @if ( ($course->action->date_end ?? null) > now() )
                                         <span class="label-action-end">Акция до {{ date('d.m', strtotime($course->action->date_end)) }}</span>

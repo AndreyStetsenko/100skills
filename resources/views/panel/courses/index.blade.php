@@ -1774,7 +1774,7 @@
                 for( file in files ){
                     let tmp_gallery_obj = {
                         catalog_item_id: vm.form.createTask.inputs.id,
-                        src: "/public" + files[file]['path'],
+                        src: files[file]['path'],
                         url: files[file]['url'],
                         title: files[file]['filename'],
                     }; /* объект, который будет сохранен при обновлении объекта */
@@ -2191,7 +2191,7 @@
                 for( file in files ){
                     let tmp_gallery_obj = {
                         catalog_item_id: vm.form.createTask.inputs.id,
-                        src: "/public" + files[file]['path'],
+                        src: files[file]['path'],
                         url: files[file]['url'],
                         title: files[file]['filename'],
                     }; /* объект, который будет сохранен при обновлении объекта */

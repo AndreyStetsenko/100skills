@@ -37,7 +37,7 @@
                                     @if (count($item->gallery) != 0)
                                         @foreach ($item->gallery as $gal)
                                             <div class="p-relative pagi-image">
-                                                <img data-src="{{ $gal->src }}" width="100%" alt="" сlass="img-item-course">
+                                                <img src="{{ $gal->src }}" width="100%" alt="" сlass="img-item-course">
                                                 @if ( $item->action->is_visible??null == 1 )
                                                     @if ( ($item->action->date_end ?? null) > now() )
                                                     <span class="label-action-end">Акция до {{ date('d.m', strtotime($item->action->date_end)) }}</span>

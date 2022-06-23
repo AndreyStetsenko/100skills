@@ -25,7 +25,7 @@
                     <div class="col-md-5 uk-text-right school-img">
                         @if (count($school->gallery) != 0)
                             @foreach ($school->gallery as $gal)
-                                <img data-src="{{ $gal->src }}" width="100%" alt="" сlass="img-item-course">
+                                <img src="{{ $gal->src }}" width="100%" alt="" сlass="img-item-course">
                             @endforeach
                         @else
                             <img src="/resources/img/no-photo.png" width="100%" alt="" сlass="img-item-course">
